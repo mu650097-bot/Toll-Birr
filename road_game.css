@@ -1,0 +1,81 @@
+/* Chicken Road (interactive). Scoped under .cr-page / .cr-* so it cannot affect other games. */
+.cr-page .cr-wrap { --cr-tile: 78px; display: grid; gap: 12px; }
+
+/* difficulty */
+.cr-levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.cr-level { display: grid; gap: 2px; padding: 10px 6px; border-radius: 14px; border: 1.5px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.05); color: inherit; text-align: center; cursor: pointer; transition: transform .15s, border-color .15s, background .15s; }
+.cr-level b { font-size: .95rem; }
+.cr-level small { font-size: .68rem; opacity: .75; }
+.cr-level.active { border-color: #ffd34d; background: linear-gradient(180deg, rgba(255,211,77,.22), rgba(255,140,40,.12)); transform: translateY(-1px); }
+.cr-level:disabled { opacity: .55; cursor: default; }
+.cr-level.active:disabled { opacity: 1; }
+
+/* HUD */
+.cr-hud { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.cr-hud > div { display: grid; gap: 2px; padding: 8px 6px; text-align: center; border-radius: 12px; background: rgba(0,0,0,.28); }
+.cr-hud small { font-size: .66rem; opacity: .7; }
+.cr-hud b { font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+#cr-hud-pay { color: #7dffa8; }
+
+/* road */
+.cr-viewport { overflow-x: auto; overflow-y: hidden; border-radius: 16px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  background: linear-gradient(#2a8a3c 0 14%, #3a3f47 14% 86%, #2a8a3c 86%); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); }
+.cr-viewport::-webkit-scrollbar { display: none; }
+.cr-road { position: relative; display: flex; height: 168px; }
+.cr-tile { position: relative; flex: 0 0 var(--cr-tile); width: var(--cr-tile); height: 100%; border-right: 2px dashed rgba(255,255,255,.28);
+  display: grid; align-content: start; justify-items: center; padding-top: 22px; overflow: hidden; transition: background .25s; }
+.cr-start-tile { background: rgba(255,255,255,.07); align-content: center; padding-top: 0; }
+.cr-flag { font-size: 1.6rem; }
+.cr-mult { z-index: 2; font-weight: 800; font-size: .8rem; padding: 3px 8px; border-radius: 999px; background: rgba(0,0,0,.55); color: #ffe27a; font-variant-numeric: tabular-nums; }
+.cr-tile.next { background: rgba(255,226,122,.14); box-shadow: inset 0 0 0 2px rgba(255,226,122,.55); }
+.cr-tile.next .cr-mult { background: #ffd34d; color: #3b2a00; }
+.cr-tile.done { background: rgba(70,220,120,.18); }
+.cr-tile.done .cr-mult { background: #35c46b; color: #0b0b09; }
+.cr-tile.current .cr-mult { box-shadow: 0 0 0 3px rgba(125,255,168,.5); }
+.cr-tile.hit { background: rgba(255,70,70,.28); }
+.cr-tile.hit .cr-mult { background: #ff4d4d; color: #fff; }
+
+/* traffic (decorative only -- outcomes are decided by the server) */
+.cr-car { position: absolute; left: 50%; top: 46px; font-size: 1.7rem; margin-left: -14px; animation: cr-drive 2.4s ease-in-out infinite alternate; }
+.cr-tile.done .cr-car { opacity: .25; filter: grayscale(1); animation-play-state: paused; }
+.cr-tile.hit .cr-car { animation: cr-hit .35s ease-out forwards; }
+@keyframes cr-drive { from { transform: translateY(-6px); } to { transform: translateY(78px); } }
+@keyframes cr-hit { to { transform: translateY(56px) scale(1.35); } }
+
+/* the chicken */
+.cr-chicken { position: absolute; left: 0; bottom: 18px; z-index: 5; font-size: 2.1rem; line-height: 1; transform: translateX(0);
+  transition: transform .38s cubic-bezier(.3, 1.55, .5, 1); filter: drop-shadow(0 4px 3px rgba(0,0,0,.45)); }
+.cr-chicken.cr-crash { animation: cr-crash .5s ease-out; }
+@keyframes cr-crash { 0% { scale: 1; } 40% { scale: 1.8; } 100% { scale: 1.2; } }
+
+.cr-status { text-align: center; font-size: .86rem; opacity: .9; min-height: 1.3em; }
+
+/* stake + actions */
+.cr-stake { display: grid; gap: 6px; }
+.cr-stake label { font-size: .82rem; opacity: .8; }
+.cr-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.cr-chips button { padding: 7px 0; border-radius: 10px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.06); color: inherit; font-weight: 700; cursor: pointer; }
+.cr-actions { display: grid; gap: 8px; }
+.cr-actions [hidden] { display: none !important; }
+.cr-btn-go { background: linear-gradient(180deg, #38d66b, #17913f); font-size: 1.15rem; padding: 14px; }
+.cr-btn-cash { padding: 13px; border-radius: 14px; border: 0; font-weight: 800; font-size: 1rem; color: #3b2a00; cursor: pointer;
+  background: linear-gradient(180deg, #ffe27a, #ffb21f); }
+.cr-btn-cash:disabled, .cr-btn-go:disabled, .cr-btn-start:disabled { opacity: .5; cursor: default; }
+
+/* result */
+.cr-banner { padding: 12px; border-radius: 14px; text-align: center; font-size: 1rem; }
+.cr-banner small { display: block; opacity: .85; margin-top: 3px; }
+.cr-banner.win { background: linear-gradient(180deg, rgba(53,196,107,.3), rgba(53,196,107,.12)); border: 1.5px solid #35c46b; }
+.cr-banner.lose { background: linear-gradient(180deg, rgba(255,77,77,.28), rgba(255,77,77,.1)); border: 1.5px solid #ff4d4d; }
+.cr-proof { margin-top: 8px; padding: 8px 10px; border-radius: 10px; background: rgba(0,0,0,.25); font-size: .72rem; display: grid; gap: 3px; word-break: break-all; }
+.cr-proof code { font-size: .72rem; }
+.cr-note { opacity: .65; line-height: 1.4; }
+
+@media (prefers-reduced-motion: reduce) { .cr-car, .cr-chicken { animation: none !important; transition: none !important; } }
+
+/* Chicken Roast: same mechanic, fire theme */
+.cr-page-roast .cr-viewport { background: linear-gradient(#7c2d12 0 14%, #3b0d06 14% 86%, #7c2d12 86%); }
+.cr-page-roast .cr-tile.next { background: rgba(251,146,60,.2); box-shadow: inset 0 0 0 2px rgba(251,146,60,.7); }
+.cr-page-roast .cr-car { filter: drop-shadow(0 0 6px rgba(255,120,30,.8)); }
+.cr-page-rabbit .cr-viewport { background: linear-gradient(#26241e 0 14%, #1f1d18 14% 86%, #26241e 86%); }

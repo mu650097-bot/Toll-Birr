@@ -1,0 +1,51 @@
+# Render Blueprint: New + -> Blueprint -> pick your private GitHub repo.
+# ONE service (API + bot + backup + proxy) because a Render disk attaches to ONE service only.
+services:
+  - type: web
+    name: kdm-mini-app
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: starter            # persistent disk needs a paid plan
+    region: frankfurt        # closest Render region to Ethiopia
+    healthCheckPath: /api/health
+    autoDeploy: true
+    # Keep this at ONE instance: the bot uses polling and the DB is SQLite.
+    disk:
+      name: kdm-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      # ---- secrets / your own values: Render asks for these when you create the Blueprint ----
+      - {key: BOT_TOKEN, sync: false}
+      - {key: ADMIN_ID, sync: false}
+      - {key: OWNER_ID, sync: false}
+      - {key: ACCOUNT_NAME, sync: false}
+      - {key: CBE_ACCOUNT, sync: false}
+      - {key: BOA_ACCOUNT, sync: false}
+      - {key: TELEBIRR_NUMBER, sync: false}
+      - {key: ADMIN_PANEL_PIN, sync: false}
+      - {key: SUPPORT_CONTACT, sync: false}
+      - {key: BOT_USERNAME, sync: false}
+      - {key: MINI_APP_URL, sync: false}       # https://<service>.onrender.com/
+      - {key: MINI_APP_API_URL, sync: false}   # https://<service>.onrender.com/api
+      - {key: PLATFORM_BANKROLL_ETB, sync: false}
+      - {key: CHAPA_SECRET_KEY, sync: false}
+      - {key: CHAPA_WEBHOOK_SECRET, sync: false}
+      - {key: CHAPA_CALLBACK_URL, sync: false}
+      - {key: CHAPA_RETURN_URL, sync: false}
+      - {key: TURN_URL, sync: false}
+      - {key: TURN_USERNAME, sync: false}
+      - {key: TURN_CREDENTIAL, sync: false}
+      # ---- fixed, safe defaults ----
+      - {key: DB_FILE, value: /app/data/auction_wallet.db}
+      - {key: TZ, value: Africa/Addis_Ababa}
+      - {key: CHAPA_MODE, value: test}
+      - {key: PAYMENT_PROVIDER, value: manual}
+      - {key: WITHDRAW_TURNOVER_MULTIPLIER, value: "0"}
+      - {key: SEED_DEMO_MARKETPLACE, value: "0"}
+      - {key: BANKROLL_EXPOSURE_PCT, value: "0.5"}
+      - {key: MAX_ROUND_PAYOUT_ETB, value: "100000"}
+      - {key: MAX_HOUSE_EDGE, value: "0.30"}
+      - {key: SPORTS_MIN_OVERROUND, value: "1.02"}
+      - {key: REALTIME_ROUND_TIMEOUT_SEC, value: "120"}
+      - {key: CALL_SESSION_TIMEOUT_SEC, value: "7200"}
