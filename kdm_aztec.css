@@ -1,0 +1,18 @@
+/* Aztec Gold screen -- matches the "In-game screens" design (teal temple board, gold frame, 3 stat tiles, bet stepper). */
+.az-frame{border:3px solid #b9770e;border-radius:22px;padding:10px 12px 14px;background:radial-gradient(120% 100% at 50% 0,#1c1b16,#13120f 60%,#082027)}
+.az-title{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px 0 10px;color:#fbbf24;font-weight:900;letter-spacing:.22em;font-size:17px}
+.az-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.az-cell{aspect-ratio:1/1;border-radius:16px;border:2px solid #2a2a2a;background:linear-gradient(160deg,#6b6660,#3f3b37);display:flex;align-items:center;justify-content:center;padding:14%;transition:opacity .2s,transform .2s,box-shadow .2s}
+.az-cell svg{width:100%;height:100%;display:block}
+.az-cell.win{background:linear-gradient(160deg,#d6d3d1,#9a948d);border-color:#facc15;box-shadow:0 0 14px rgba(250,204,21,.55);animation:azpop .5s ease-out}
+.az-cell.dim{opacity:.55}
+.az-grid.spin .az-cell{transform:scale(.97)}
+@keyframes azpop{0%{transform:scale(.9)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.az-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.az-stats .kx-tile b{font-size:22px}.az-stats .kx-tile b.y{color:#fcd34d}
+.az-bet label{font-size:13px;opacity:.7;display:block;margin:0 0 6px}
+.az-row{display:flex;gap:10px;align-items:stretch;margin:0 0 10px}.az-row:last-child{margin:0}
+.az-row .kx-step{flex:1}
+.az-ghost{min-height:52px;padding:0 16px;border-radius:14px;border:1px solid #f9c006;background:#1d1c17;color:#fdecb4;font-weight:800;font-size:15px}
+.az-ghost.on{background:#f9c824;color:#fff}
+.az-auto{flex:0 0 96px}.az-spin{flex:1;min-height:58px}
+.az-ghost:disabled{opacity:.5}

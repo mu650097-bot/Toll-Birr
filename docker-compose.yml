@@ -1,0 +1,72 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    env_file: .env
+    environment:
+      DB_FILE: /app/data/auction_wallet.db
+      TZ: Africa/Addis_Ababa
+    volumes:
+      - kdm-data:/app/data
+      - kdm-backups:/app/backups:ro
+    restart: unless-stopped
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    env_file: .env
+    environment:
+      DB_FILE: /app/data/auction_wallet.db
+      MINI_APP_DIR: /app
+      TZ: Africa/Addis_Ababa
+    volumes:
+      - kdm-data:/app/data
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  backup:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    env_file: .env
+    environment:
+      DB_FILE: /app/data/auction_wallet.db
+      TZ: Africa/Addis_Ababa
+    command: ["sh", "-c", "while true; do python backup_db.py; sleep 21600; done"]
+    healthcheck:
+      disable: true
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - kdm-data:/app/data
+      - kdm-backups:/app/backups
+    restart: unless-stopped
+
+  proxy:
+    image: caddy:2.10-alpine
+    environment:
+      DOMAIN: ${DOMAIN}
+    depends_on:
+      api:
+        condition: service_healthy
+      bot:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  kdm-data:
+  kdm-backups:
+  caddy-data:
+  caddy-config:

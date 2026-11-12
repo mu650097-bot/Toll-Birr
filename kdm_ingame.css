@@ -1,0 +1,71 @@
+/* KDM IN-GAME SCREENS (phase 1: look only). Matches the "In-game screens" design: dark-blue panels,
+   circular back button + title + Live dot, bet stepper (- value +), quick chips, big green action button.
+   Pure presentation -- inputs keep their ids/values, no result or payout is decided here. */
+.kdm-ig-head{display:flex;align-items:center;gap:10px;min-height:46px;margin:0 0 10px}
+.kdm-ig-head .back-btn{width:34px;height:34px;min-height:34px!important;padding:0!important;border:0!important;border-radius:50%!important;background:#1d1c17!important;color:#fef9e6!important;font-size:0!important;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:none!important}
+.kdm-ig-head .back-btn::before{content:"";width:9px;height:9px;border-left:2.4px solid currentColor;border-bottom:2.4px solid currentColor;transform:rotate(45deg);margin-left:3px}
+.kdm-ig-head h2,.kdm-ig-head h3{margin:0!important;font-size:18px!important;font-weight:700!important;color:#fef9e6!important;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kdm-ig-live{display:flex;align-items:center;gap:5px;font-size:11px;color:#fbd65c;flex:none}
+.kdm-ig-live::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+.kdm-ig-spacer{flex:1}
+
+.added-game-page .game-controls,.page .ng-stake{background:#171612!important;border:1px solid #2b2922!important;border-radius:16px!important;padding:12px!important}
+.kdm-ig-bet{display:flex;flex-direction:column;gap:4px}
+.kdm-ig-bet>label,.game-controls label[for$="-stake"]{font-size:11px!important;color:#fbd65c!important;font-weight:500!important;margin:0 0 4px!important}
+.kdm-ig-stepper{display:flex;align-items:center;gap:4px;height:44px;padding:0 5px;border-radius:12px;background:#12110e;border:1px solid #f9c006;box-sizing:border-box}
+.kdm-ig-stepper button{width:32px;height:32px;min-height:32px!important;flex:none;border:0!important;border-radius:9px!important;background:#25231d!important;color:#fff!important;font-size:20px;line-height:1;padding:0!important;display:flex;align-items:center;justify-content:center}
+.kdm-ig-stepper input.game-stake{flex:1;min-width:0;height:32px!important;min-height:32px!important;border:0!important;background:transparent!important;text-align:center!important;font-size:16px!important;font-weight:700!important;color:#fff!important;padding:0!important;box-shadow:none!important;-moz-appearance:textfield}
+.kdm-ig-stepper input::-webkit-outer-spin-button,.kdm-ig-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kdm-ig-chips{display:flex;gap:8px;margin-top:10px}
+.kdm-ig-chips button{flex:1;height:30px;min-height:30px!important;border:0!important;border-radius:9px!important;background:#1d1c17!important;color:#fdecb4!important;font-weight:600;font-size:12px;padding:0!important}
+.kdm-ig-chips button.on{background:#f9c824!important;color:#fff!important}
+.kdm-stake-quick{margin-top:8px!important}
+
+.added-game-page button[id$="-play"],.page button.primary-game-btn[id$="-play"]{min-height:58px!important;border:0!important;border-radius:14px!important;background:linear-gradient(180deg,#34d46a,#1fb356)!important;color:#080706!important;font-weight:800!important;font-size:18px!important;box-shadow:0 6px 18px rgba(34,197,94,.35)!important}
+.added-game-page button[id$="-play"]:disabled{filter:grayscale(.6);opacity:.6}
+.added-game-page .game-3d-scene{border:1px solid #f9c006!important;border-radius:16px!important;background:#0d0d0a}
+.added-game-page .game-result{background:#171612!important;border:1px solid #2b2922!important;border-radius:16px!important}
+.added-game-page .fairness-note{font-size:12px;color:#fbd65c!important}
+
+/* header: on game pages the top bar shows the KDM logo (as in the design); back + title live in the row below */
+body.kdm-ig-on #kdm-back,body.kdm-ig-on #kdm-page-title{display:none!important}
+body.kdm-ig-on #brand-lockup,body.kdm-ig-on #brand-lockup.kdm-hide-sm{display:flex!important}
+/* the old half / double / max row is restyled as small chips under the bet chips */
+.added-game-page .kdm-stake-quick{display:flex;gap:8px;margin-top:8px!important}
+.added-game-page .kdm-stake-quick button{flex:1;height:30px;min-height:30px!important;border:0!important;border-radius:9px!important;background:#1d1c17!important;color:#fdecb4!important;font-weight:600;font-size:12px;padding:0!important}
+
+/* ---- Boom + Number (round-based pool games, no stake input: entry fee is fixed by the server) ---- */
+#page-boom>p#boom-info,#page-number>p#number-info{margin:0 0 10px;padding:12px 14px;background:#171612;border:1px solid #2b2922;border-radius:16px;color:#fdecb4;font-size:13px;line-height:1.5}
+#page-boom #boom-commitment-row{margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#12110e;border:1px solid #f9c006;color:#fbd65c;font-size:11px}
+#page-boom #boom-commitment-row code{color:#fcdf80}
+#boom-grid{display:grid!important;gap:10px;padding:12px;margin:0 0 12px;background:#171612;border:1px solid #2b2922;border-radius:16px}
+#boom-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#boom-grid button{min-height:0!important;aspect-ratio:1/1;border:2px solid #f9c006!important;border-radius:14px!important;background:linear-gradient(160deg,#f9c006,#1d1c17)!important;color:#fff!important;font-size:22px;font-weight:800;padding:0!important}
+#boom-grid button.opened{background:linear-gradient(160deg,#22c55e,#2e2b24)!important;border-color:#4ade80!important}
+#boom-grid button.bomb{background:linear-gradient(160deg,#fb7185,#be123c)!important;border-color:#fda4af!important}
+#boom-grid button:disabled{opacity:.55}
+#boom-grid button.opened:disabled,#boom-grid button.bomb:disabled{opacity:1}
+#page-boom #boom-players{list-style:none;margin:0 0 12px;padding:8px 12px;background:#171612;border:1px solid #2b2922;border-radius:16px}
+#page-boom #boom-players li{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:#fdecb4;border-bottom:1px solid #1d1c17}
+#page-boom #boom-players li:last-child{border-bottom:0}
+#page-boom #boom-leave{width:100%;min-height:48px;border:0!important;border-radius:14px!important;background:#3a1020!important;color:#ff8aa0!important;font-weight:700}
+#page-number #number-result{margin:0 0 12px;color:#fdecb4;font-size:13px;min-height:0}
+#page-number #number-result:empty{display:none}
+
+/* Plinko Risk / Rows selectors */
+.pl-opts{display:flex;flex-direction:column;gap:8px;margin:0 0 10px}
+.pl-grp{display:flex;align-items:center;gap:8px}
+.pl-grp>span{flex:0 0 44px;font-size:11px;color:#fbd65c}
+.pl-opt{flex:1;height:32px;min-height:32px!important;border:0!important;border-radius:9px!important;background:#1d1c17!important;color:#fdecb4!important;font-weight:600;font-size:12px;padding:0!important}
+.pl-opt.on{background:#f9c824!important;color:#fff!important}
+
+/* Classic Keno: 80-number board, picked counter, per-pick paytable */
+.kn-bar{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+.kn-bar #kn-count{flex:1;font-size:13px;font-weight:700;color:#fef9e6}
+.kn-btn{height:30px;min-height:30px!important;padding:0 12px!important;border:0!important;border-radius:9px!important;background:#1d1c17!important;color:#fdecb4!important;font-weight:600;font-size:12px}
+.keno-grid.kn80{display:grid!important;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.keno-grid.kn80 .choice-btn{min-height:0!important;height:auto;aspect-ratio:1/1;padding:0!important;font-size:12px;font-weight:700;border-radius:8px!important}
+.keno-grid.kn80 .choice-btn.selected{background:#f9c824!important;color:#fff!important;border-color:#fcdf80!important}
+.kn-pay{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.kn-cell{display:flex;flex-direction:column;align-items:center;min-width:56px;padding:5px 8px;border-radius:10px;background:#12110e;border:1px solid #f9c006}
+.kn-cell b{font-size:10px;color:#fbd65c;font-weight:600}.kn-cell i{font-size:13px;color:#ffd84a;font-style:normal;font-weight:800}

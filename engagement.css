@@ -1,0 +1,57 @@
+/* ---- Back / Close bar ---- */
+#nav-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--bg,#040303);position:sticky;top:0;z-index:30}
+#nav-bar button{background:var(--surface-2,#111416);color:var(--gold-soft,#ffd83d);border:1px solid #3a3320;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13px}
+#nav-bar button:active{transform:scale(.96)}
+
+/* ---- Home banner carousel ---- */
+#home-banners{margin:10px 12px 8px}
+#hb-viewport{overflow:hidden;border-radius:16px;border:1px solid #4a3b20;box-shadow:0 10px 26px rgba(0,0,0,.4);aspect-ratio:16/7;background:#090807}
+#hb-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.22,.8,.3,1)}
+.hb-slide{flex:0 0 100%;height:100%}
+.hb-slide img{width:100%;height:100%;object-fit:cover;display:block}
+#hb-dots{display:flex;justify-content:center;gap:6px;margin-top:7px}
+#hb-dots i{width:6px;height:6px;border-radius:50%;background:#4a4a4a;transition:all .25s}
+#hb-dots i.on{width:18px;border-radius:4px;background:var(--gold-soft,#ffd83d)}
+
+/* ---- Shamo ---- */
+#page-shamo{padding:0 12px 24px}
+.shamo-hero{text-align:center;padding:14px 0 6px}
+.shamo-coin{font-size:64px;filter:drop-shadow(0 10px 18px rgba(240,194,27,.45));animation:shCoin 3s ease-in-out infinite}
+.shamo-title{margin:4px 0 0;font-size:34px;letter-spacing:.28em;background:linear-gradient(90deg,#7df5c3,#9fe8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.shamo-sub{font-size:12px;letter-spacing:.18em;color:#9aa3a8;margin-top:4px}
+.shamo-card{margin-top:14px;background:rgba(14,13,11,.85);border:1px solid #22211b;border-radius:18px;padding:14px}
+.shamo-card-title{text-align:center;font-weight:800;margin-bottom:10px}
+.shamo-clock{display:flex;align-items:center;justify-content:center;gap:8px}
+.shamo-clock>div{background:#0d0d0a;border:1px solid #22211b;border-radius:14px;min-width:78px;padding:10px 0;text-align:center}
+.shamo-clock b{display:block;font-size:30px}
+.shamo-clock small{font-size:9px;letter-spacing:.2em;color:#facd38}
+.shamo-clock i{font-style:normal;font-size:22px;color:#facd38}
+.shamo-bar{height:6px;border-radius:4px;background:#191814;margin-top:12px;overflow:hidden}
+.shamo-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#fbdb70,#5fd68a,#b6e04a);transition:width 1s linear}
+.shamo-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}
+.shamo-card-head small{display:block;color:#9aa3a8;margin-top:2px}
+.shamo-pill{border:1px solid #6b5a1c;color:var(--gold-soft,#ffd83d);border-radius:999px;padding:5px 10px;font-weight:800;font-size:12px;white-space:nowrap}
+#shamo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.shamo-box{aspect-ratio:1;border-radius:14px;border:1px solid #22211b;background:#13120f;font-size:26px;opacity:.55;transition:transform .15s}
+.shamo-box.ready{opacity:1;border-color:var(--gold-soft,#ffd83d);box-shadow:0 0 14px rgba(240,194,27,.35);animation:shPulse 1.6s ease-in-out infinite}
+.shamo-box.opened{opacity:1;background:#161411;border-color:#3d8f55}
+.shamo-box.shaking{animation:shShake .35s linear infinite}
+.shamo-box:disabled{cursor:default}
+#shamo-result{margin-top:12px;text-align:center;font-weight:800;min-height:20px}
+#shamo-result.win{color:#7df5a5;font-size:18px}
+@keyframes shCoin{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+@keyframes shPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes shShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+
+/* ---- Admin ---- */
+.admin-banner-row{display:flex;align-items:center;gap:10px;margin:6px 0}
+.admin-banner-row img{width:96px;height:42px;object-fit:cover;border-radius:6px}
+.admin-banner-row span{flex:1;font-size:12px}
+
+/* ---- Game stage (original vector scenes replace the old primitive 3D shapes) ---- */
+.game-3d-scene.stage .three-webgl-layer,.game-3d-scene.stage .webgl-game-canvas{display:none}
+.game-3d-scene.stage .game-3d-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:1;z-index:1}
+.game-3d-scene.stage .scene-vignette{position:absolute;inset:0;z-index:2;mix-blend-mode:normal;background:radial-gradient(circle at 50% 45%,transparent 55%,rgba(0,0,0,.45) 100%)}
+.game-3d-scene.stage .scene-hud{position:absolute;z-index:3}
+.game-3d-scene.stage .scene-multiplier{padding:6px 8px;border-radius:8px;background:rgba(0,0,0,.38);color:#ffd84a}
+.game-3d-scene.stage:empty{display:none}

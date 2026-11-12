@@ -1,0 +1,22 @@
+--- /home/claude/icons/kdm/app.js	2026-10-19 18:58:08.000000000 +0000
++++ app.js	2026-10-19 17:01:22.999774825 +0000
+@@ -507,6 +507,10 @@
+   { key: "marketplace", icon: "🛍️", name: "Marketplace", color: "#6b4fa0", color2: "#3a2a5c", badge: "🎓 NEW", cats: ["hot", "new"] },
+ ];
+ 
++const GAME_SYM = { boom:"w-mines", number:"w-number", aviator:"w-plane", keno:"w-keno", mines:"w-mines", dice:"w-dice",
++  plinko:"w-plinko", jet:"w-jet", chicken:"w-chicken", fish:"w-fish", rabbit:"w-rabbit", slot:"w-slot",
++  card:"w-card", wheel:"i-wheel", sports:"w-ball", marketplace:"i-gift" };
++
+ const ADDED_GAME_INFO = {
+   dice: { title: "🎲 Dice", help: "1–6 ቁጥር ይምረጡ።" },
+   slot: { title: "🎰 777 Slot", help: "3 reels ይዞራሉ።" },
+@@ -722,7 +726,7 @@
+         <div class="preview-track"></div>
+         <div class="preview-orb preview-orb-a"></div>
+         <div class="preview-orb preview-orb-b"></div>
+-        <div class="preview-game-object">${g.icon}</div>
++        <div class="preview-game-object"><svg class="game-svg" aria-hidden="true"><use href="#${GAME_SYM[g.key] || 'w-default'}"/></svg></div>
+         <div class="preview-spark preview-spark-a"></div>
+         <div class="preview-spark preview-spark-b"></div>
+         <span class="preview-live-tag">${g.key === "keno" ? "READY" : g.key === "chicken" || g.key === "rabbit" ? "ROUND LIVE" : g.key === "fish" ? "FISHING" : g.key === "aviator" || g.key === "jet" ? "LIVE" : "PLAY NOW"}</span>

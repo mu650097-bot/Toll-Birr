@@ -1,0 +1,15 @@
+{
+    auto_https off
+    admin off
+}
+
+:{$PORT} {
+    handle /api/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    # Frontend goes through the bot's whitelist server (MINI_PUBLIC_ASSETS) -- same as docker-compose.
+    # Never serve /app as a static directory: it would expose the source code and /app/data/*.db.
+    handle {
+        reverse_proxy 127.0.0.1:8080
+    }
+}

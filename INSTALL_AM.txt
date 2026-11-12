@@ -1,0 +1,23 @@
+step24 · Jet (ራዳር መልክ፣ Auto eject፣ EJECT)  +  step25 · Boom Ladder (8 ደረጃ፣ 3 ሳጥን)
+
+ፋይሎች: kdm_jet.js · kdm_jet.css · kdm_boom.js · kdm_boom.css  → ከ index.html አጠገብ ያስቀምጡ።
+
+1) index.html <head> ውስጥ kdm_ingame.css ከሚለው መስመር በኋላ:
+   <link rel="stylesheet" href="kdm_jet.css?v=20261120">
+   <link rel="stylesheet" href="kdm_boom.css?v=20261120">
+
+2) index.html ውስጥ app.js እና ሌሎች kdm_*.js መስመሮች በኋላ (kdm_ingame.js በፊት):
+   <script src="kdm_jet.js?v=20261120"></script>
+   <script src="kdm_boom.js?v=20261120"></script>
+   (Number ገና ካልጨመሩ: <script src="kdm_number.js?v=20261123"></script> )
+
+3) kdm_mini_app.py ውስጥ MINI_PUBLIC_ASSETS ዝርዝር መጨረሻ ("/kdm_slot.js" መስመር በኋላ) ይህን ይጨምሩ:
+    "/kdm_jet.js": "application/javascript; charset=utf-8",
+    "/kdm_jet.css": "text/css; charset=utf-8",
+    "/kdm_boom.js": "application/javascript; charset=utf-8",
+    "/kdm_boom.css": "text/css; charset=utf-8",
+   (ይህን ካልጨመሩ ሰርቨሩ ፋይሎቹን አያቀርብም → አሮጌው መልክ ይቀራል።)
+
+app.js መቀየር አያስፈልግም (ሁለቱም ፋይሎች setupAddedGameControls ን በራሳቸው ይጠቀለላሉ)። ሰርቨሩ አልተነካም።
+Jet: ከ Aviator ጋር አንድ ሞተር (key "jet")፤ Rocket ካታሎግ ጨዋታም ይህን ገጽ ይጠቀማል።
+Boom Ladder: "Tower" ጨዋታ ገጽ (key "tower") ላይ ይታያል፤ ብዙ-ተጫዋች የ Boom pool ጨዋታ አልተነካም።

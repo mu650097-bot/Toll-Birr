@@ -1,0 +1,55 @@
+/* KDM FAST KENO screen: 40-number grid, pick 1-8. */
+#page-fastkeno .fk-top{display:flex;align-items:center;gap:14px;padding:12px;border-radius:20px;border:1px solid rgba(250,204,21,.35);background:linear-gradient(135deg,#1e1c17,#12110e);position:relative;overflow:hidden}
+#page-fastkeno .fk-ring{width:66px;height:66px;flex:none;border-radius:50%;border:6px solid #facc15;display:flex;align-items:center;justify-content:center;background:#12110e}
+#page-fastkeno .fk-ring b{font-size:20px;color:#fff}
+#page-fastkeno .fk-top small{font-size:11px;font-weight:800;letter-spacing:.5px;color:#facc15}
+#page-fastkeno .fk-top h4{margin:2px 0;font-size:18px}#page-fastkeno .fk-top em{font-style:normal;font-size:12px;opacity:.65}
+#page-fastkeno .fk-board{padding:10px;border-radius:20px;border:1px solid #f9c006;background:#12110e}
+#page-fastkeno .fk-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+#page-fastkeno .fk-c{aspect-ratio:1/1;border-radius:9px;border:1px solid #f9c006;background:#181713;color:#fef6dc;font-weight:800;font-size:14px;padding:0}
+#page-fastkeno .fk-c.pick{background:#facc15;border-color:#fde68a;color:#1a1205}
+#page-fastkeno .fk-c.drawn{background:#f9c417;border-color:#fce189;color:#fff}
+#page-fastkeno .fk-c.hit{background:#16a34a;border-color:#4ade80;color:#fff;box-shadow:0 0 10px rgba(74,222,128,.45)}
+#page-fastkeno .fk-leg{display:flex;align-items:center;gap:12px;margin-top:10px;font-size:11px;opacity:.9}
+#page-fastkeno .fk-leg span{display:flex;align-items:center;gap:5px}#page-fastkeno .fk-leg i{width:11px;height:11px;border-radius:3px;display:inline-block}
+#page-fastkeno .fk-leg b{margin-left:auto;font-size:12px}
+#page-fastkeno .fk-pay{display:flex;gap:6px;flex-wrap:wrap;font-size:11px}
+#page-fastkeno .fk-pay>*{padding:5px 8px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+#page-fastkeno .fk-lastrow{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;border:1px solid #f9c006;background:#191814}
+#page-fastkeno .fk-lastrow small{opacity:.7;font-size:12px}#page-fastkeno .fk-lastrow div{display:flex;gap:6px;flex-wrap:wrap}
+#page-fastkeno .fk-lastrow span{min-width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#faca2d;color:#fff;font-size:12px;font-weight:800}
+#page-fastkeno .fk-lastrow span.h{background:#16a34a}
+#page-fastkeno .fk-ghost{min-height:52px;border-radius:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font-weight:800}
+#page-fastkeno .fk-ghost.gold{border-color:#f59e0b;color:#fbbf24}#page-fastkeno .fk-ghost.on{background:#f59e0b;color:#1a1205}
+#page-fastkeno .fk-bet{min-height:52px;border-radius:14px;border:0;background:linear-gradient(180deg,#fde047,#d97706);color:#1a1205;font-weight:900;font-size:17px}
+#page-fastkeno .fk-bet:disabled{opacity:.6}
+#page-fastkeno .kx-step{flex:2.2;min-width:0}#page-fastkeno .kx-step input{flex:1;min-width:44px;width:100%;text-align:center;background:transparent;border:0;color:#fff;font-size:20px;font-weight:800}
+#page-fastkeno .kdm-stake-quick{flex:none!important;display:flex;gap:4px}#page-fastkeno .kdm-stake-quick button{min-width:34px;padding:0 6px}
+#page-fastkeno .fairness-note{display:none}
+#page-fastkeno .kx-row>.kx-step{flex:1 1 auto}#page-fastkeno .kx-row>#fk-quick{flex:none;min-width:70px;padding:0 8px;font-size:12px}
+#page-fastkeno .kx-step input{min-width:56px}
+#page-fastkeno .fk-power{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:18px;border:1px solid #14b8a6;background:linear-gradient(135deg,#161511,#12110e)}
+#page-fastkeno .fk-8{width:44px;height:44px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#0b0a09;background:linear-gradient(180deg,#5eead4,#14b8a6);box-shadow:0 0 12px rgba(45,212,191,.55)}
+#page-fastkeno .fk-power small{display:block;font-size:11px;font-weight:700;color:#99f6e4;margin-bottom:6px}
+#page-fastkeno .fk-meter{height:10px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+#page-fastkeno .fk-meter i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2dd4bf,#facc15);transition:width .35s ease}
+#page-fastkeno .fk-ticks{display:flex;justify-content:space-between;gap:4px;margin-top:6px;font-size:10px;font-weight:800;color:#fbd65c}
+#page-fastkeno .fk-ticks span.on{color:#facc15}
+/* SUPER KENO (green ball machine) -- same engine, look only */
+#page-fastkeno .fk-super .fk-machine{height:150px;border-radius:18px;border:1px solid #2e2c24;position:relative;overflow:hidden;background:radial-gradient(90% 120% at 50% 100%,#201e19 0%,#0c0b09 80%);display:flex;flex-direction:column;justify-content:space-between;padding:10px 12px;box-sizing:border-box}
+#page-fastkeno .fk-super .fk-mt{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:#86efac}
+#page-fastkeno .fk-super .fk-mt #fk-balls{padding:3px 10px;border-radius:999px;background:rgba(7,7,6,.75)}
+#page-fastkeno .fk-super .fk-tray{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-content:flex-end;min-height:64px}
+#page-fastkeno .fk-super .fk-tray span{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);animation:fkDrop .28s ease-out}
+#page-fastkeno .fk-super .fk-tray span.h{box-shadow:0 0 0 2px #fff,0 0 10px rgba(255,255,255,.6)}
+@keyframes fkDrop{from{transform:translateY(-26px) scale(.6);opacity:0}to{transform:none;opacity:1}}
+#page-fastkeno .fk-super .fk-board{background:#0c0b09;border-color:#211f1a}
+#page-fastkeno .fk-super .fk-c{background:#13120f;border-color:#211f1a;color:#8fe0a9}
+#page-fastkeno .fk-super .fk-c.pick{background:#facc15;border-color:#fde68a;color:#1a1000}
+#page-fastkeno .fk-super .fk-c.drawn{background:#211f1a;border-color:#4ade80;color:#fff}
+#page-fastkeno .fk-super .fk-c.hit{background:#16a34a;border-color:#86efac;color:#fff}
+#page-fastkeno .fk-super .fk-pay>*{background:#13120f;border-color:#211f1a;color:#8fe0a9}
+#page-fastkeno .fk-super .fk-pay>.on{background:#2e2b24;border-color:#4ade80;color:#fff}
+#page-fastkeno .fk-super #fk-auto{display:none}
+#page-fastkeno .fk-super .fk-bet{background:linear-gradient(180deg,#4ade80,#16a34a);color:#080706;box-shadow:0 6px 18px rgba(34,197,94,.35)}
+@media (prefers-reduced-motion:reduce){#page-fastkeno .fk-super .fk-tray span{animation:none}}

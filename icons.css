@@ -1,0 +1,42 @@
+/* KDM ICON LAYER - loaded last. Original SVG icons for quick tiles, Big Wins cards and bottom nav. */
+
+/* ---- quick tiles ---- */
+.quick-cabinet-btn { gap:7px; background:linear-gradient(160deg,#14110a,#070605)!important; border:1px solid rgba(245,197,24,.35)!important; border-radius:10px!important; overflow:hidden; }
+.quick-cabinet-btn::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 30%,rgba(245,197,24,.16),transparent 62%); pointer-events:none; }
+.quick-cabinet-btn .kicon { width:46px; height:46px; display:block; filter:drop-shadow(0 3px 5px rgba(0,0,0,.6)) drop-shadow(0 0 8px rgba(245,197,24,.28)); animation:iconBob 3s ease-in-out infinite; position:relative; }
+.quick-cabinet-btn:nth-child(even) .kicon { animation-delay:.8s; }
+.quick-cabinet-btn b { position:relative; }
+.quick-cabinet-btn em { border-radius:0 9px 0 6px; z-index:2; }
+.kicon-sm { width:20px; height:20px; display:inline-block; vertical-align:-4px; }
+.wins-heading > span:first-child .kicon { width:22px; height:22px; }
+
+/* ---- Big Wins cards ---- */
+.win-chip { width:112px!important; border-radius:10px!important; border:1px solid rgba(245,197,24,.25)!important; background:#0e0f11!important; }
+.win-chip:before { display:none!important; }
+.win-art { height:76px; flex:0 0 76px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:linear-gradient(145deg,#f9c006,#0d0c0a 70%); }
+.win-art::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.22),transparent 55%); }
+.win-art svg { width:56px; height:56px; position:relative; z-index:1; filter:drop-shadow(0 4px 6px rgba(0,0,0,.55)); }
+.win-art--plane  { background:linear-gradient(145deg,#f9c006,#100f0d 75%); }
+.win-art--jet    { background:linear-gradient(145deg,#f9c006,#12110e 75%); }
+.win-art--slot   { background:linear-gradient(145deg,#a3290f,#2a0d06 75%); }
+.win-art--mines  { background:linear-gradient(145deg,#f9c006,#11100d 75%); }
+.win-art--dice   { background:linear-gradient(145deg,#f9c417,#13120f 75%); }
+.win-art--keno   { background:linear-gradient(145deg,#292720,#0c0b09 75%); }
+.win-art--chicken{ background:linear-gradient(145deg,#a16207,#2a1a04 75%); }
+.win-art--rabbit { background:linear-gradient(145deg,#9d174d,#100f0d 75%); }
+.win-art--plinko { background:linear-gradient(145deg,#f9c006,#11100e 75%); }
+.win-art--wheel,.win-art--trophy,.win-art--default { background:linear-gradient(145deg,#92400e,#1f1204 75%); }
+.win-art--ball,.win-art--number { background:linear-gradient(145deg,#26241e,#0c0b09 75%); }
+.win-art--card   { background:linear-gradient(145deg,#2a2821,#0b0a08 75%); }
+.win-art--fish   { background:linear-gradient(145deg,#0e7490,#06202a 75%); }
+.win-chip-title { padding:5px 8px 0; font-size:11px; color:#d7d9dc; overflow:hidden; text-overflow:ellipsis; }
+.win-chip .amt { padding:2px 8px 0!important; font-size:12px!important; }
+
+/* ---- bottom nav ---- */
+#bottom-nav .nav-icon { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; font-size:0; }
+#bottom-nav .nicon { width:24px; height:24px; display:block; transition:transform .25s; }
+#bottom-nav button.active .nicon { transform:translateY(-1px) scale(1.08); }
+
+/* ---- lobby game tile icons (SVG instead of emoji) ---- */
+.preview-game-object .game-svg { width:clamp(34px,10vw,52px); height:clamp(34px,10vw,52px); display:block; }
+.win-art--plane  { background:linear-gradient(145deg,#3a3a3f,#0c0c0e 75%); }

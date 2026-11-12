@@ -1,0 +1,18 @@
+FROM caddy:2 AS caddy
+
+FROM python:3.12-slim
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends libcap2-bin \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=caddy /usr/bin/caddy /usr/local/bin/caddy
+RUN setcap -r /usr/local/bin/caddy || true
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN chmod +x /app/render_run.sh
+
+CMD ["/app/render_run.sh"]

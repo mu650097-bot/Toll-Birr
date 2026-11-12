@@ -1,0 +1,25 @@
+/* Flame Classics screen -- fire-red cabinet, orange frame, 3 big cream reels, heat meter, paytable chips, orange Spin. */
+.fl-frame{position:relative;border:4px solid #ff7a1a;border-radius:22px;padding:14px 12px 12px;background:radial-gradient(120% 100% at 50% 0,#5a0f0a,#2a0705 70%);box-shadow:0 0 22px rgba(255,122,26,.35)}
+.fl-title{text-align:center;color:#fcd34d;font-weight:900;letter-spacing:.2em;font-size:15px;margin:0 0 10px}
+.fl-reels{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fl-reel{aspect-ratio:1/1.45;border-radius:16px;border:2px solid #ffb347;background:linear-gradient(180deg,#fff6e3,#f3d4a0);display:flex;align-items:center;justify-content:center;padding:14%;transition:transform .15s}
+.fl-reel svg{width:100%;height:auto;display:block}
+.fl-reel.rolling{transform:scale(.97);filter:saturate(.8) blur(.4px)}
+.fl-reel.win{box-shadow:0 0 18px rgba(255,166,0,.75);animation:flpop .5s ease-out}
+.fl-line{position:absolute;left:-4px;right:-4px;top:50%;height:3px;background:#34d36b;box-shadow:0 0 10px rgba(52,211,107,.7);pointer-events:none}
+.fl-win{text-align:center;margin-top:10px;min-height:28px;font-weight:900;letter-spacing:.05em;font-size:18px;color:#fcd34d}.fl-win b{color:#4ade80;font-size:24px;margin-left:6px}
+@keyframes flpop{0%{transform:scale(.92)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.fl-stats{display:grid;grid-template-columns:1.5fr 1fr;gap:10px}
+.fl-heat{border-radius:16px;border:1px solid #5a2410;background:#1f0d0a;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.fl-heat small{color:#fdba74;font-size:12px}.fl-heat em{font-style:normal;color:#fdba74;font-size:12px}
+.fl-bar{height:10px;border-radius:6px;background:#2d1208;overflow:hidden}.fl-bar i{display:block;height:100%;background:linear-gradient(90deg,#fbbf24,#ea580c);transition:width .35s}
+.fl-last b{font-size:24px}
+.fl-pays{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fl-pay{border-radius:12px;background:#171612;border:1px solid #2b2922;padding:8px 4px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.fl-pay small{font-size:11px;opacity:.7}.fl-pay b{font-size:16px;color:#fef9e6}.fl-pay[data-s="seven"] b{color:#fcd34d}
+.fl-pay.hit{background:#6b2a0c;border-color:#ff7a1a;box-shadow:0 0 12px rgba(255,122,26,.5)}
+.fl-bet label{font-size:13px;opacity:.7;display:block;margin:0 0 6px}
+.fl-row{display:flex;gap:10px;align-items:stretch;margin:0 0 10px}.fl-row:last-child{margin:0}.fl-row .kx-step{flex:1}
+.fl-ghost{min-height:52px;padding:0 16px;border-radius:14px;border:1px solid #f9c006;background:#1d1c17;color:#fdecb4;font-weight:800;font-size:15px}
+.fl-ghost.on{background:#f9c824;color:#fff}.fl-ghost:disabled{opacity:.5}.fl-auto{flex:0 0 96px}
+.fl-spin{flex:1;min-height:58px;border:0;border-radius:14px;background:linear-gradient(180deg,#ff8a3a,#ea5a12);color:#fff;font-weight:900;font-size:19px;box-shadow:0 8px 22px rgba(234,90,18,.4)}.fl-spin:disabled{opacity:.5}

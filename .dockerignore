@@ -1,0 +1,25 @@
+# secrets and runtime state
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+backups/
+data/
+# caches and VCS
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+.git/
+# archives
+*.zip
+*.tar
+*.gz
+
+# not part of the runtime image
+*.log
+preview_*.png
+_unused/
+*.patch

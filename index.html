@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>King Bet</title>
+<!-- Same-origin production setup: Caddy routes /api/* to the Flask API
+     and all other paths to the Mini App server. If the frontend/API are
+     deployed on different domains, replace this value with the public
+     HTTPS API origin ending in /api and keep config.py in sync. -->
+<meta name="mini-app-api-url" content="/api">
+
+<!-- REQUIRED: Telegram's own WebApp SDK. Must be loaded from this
+     exact URL -- do not self-host or bundle a copy. -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<link rel="stylesheet" href="style.css?v=kb1\">
+<link rel="stylesheet" href="premium.css?v=kb1\">
+  <link rel="stylesheet" href="engagement.css?v=kb1\">
+  <link rel="stylesheet" href="visual_refresh.css?v=kb1\">
+  <link rel="stylesheet" href="onboarding.css?v=kb1\">
+  <link rel="stylesheet" href="road_game.css?v=kb1\">
+  <link rel="stylesheet" href="new_games.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_design.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_ingame.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_slot.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_bingo.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_fastkeno.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_boom.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_jet.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_rocket.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_triplegold.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_flame.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_aztec.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_number.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_fix.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_betpro.css?v=kb1\">
+  <link rel="stylesheet" href="kdm_neon.css?v=kb1\">
+  <link rel="stylesheet" href="megaplay_theme.css?v=kb1\">
+  <link rel="stylesheet" href="kingbet_theme.css?v=kb1\">
+</head>
+<body>
+
+  <div id="app">
+    <div id="confetti-layer" aria-hidden="true"></div>
+    <div id="win3d-layer" aria-hidden="true"></div>
+    <div id="loading">⏳ በመጫን ላይ...</div>
+    <div id="error" style="display:none"></div>
+
+    <!-- 18+ AGE GATE -- blocks all app content/interaction until the
+         user confirms they are of legal age. Shown before anything
+         else (including the welcome card), every device, once per
+         device (localStorage), and is a hard block: declining shows
+         an exit message instead of the app. -->
+    <div id="age-gate-overlay" style="display:none">
+      <div id="age-gate-card">
+        <div class="age-gate-emoji">🔞</div>
+        <div class="age-gate-title">የእድሜ ማረጋገጫ</div>
+        <p class="age-gate-text">
+          ይህ መተግበሪያ እውነተኛ ገንዘብ የያዘ የውርርድ/ጨዋታ አገልግሎት ነው።
+          ለመቀጠል እድሜዎ 18 እና ከዚያ በላይ መሆኑን ማረጋገጥ አለብዎት።
+        </p>
+        <button id="age-gate-confirm">✅ አዎ፣ እድሜዬ 18+ ነው</button>
+        <button id="age-gate-decline">❌ አይደለም / አልፈልግም</button>
+      </div>
+    </div>
+    <div id="age-gate-blocked" style="display:none">
+      <div class="age-gate-text" style="text-align:center;padding:40px 24px">
+        🔞 ይህ አገልግሎት ለ18 ዓመት እና ከዚያ በላይ ለሆኑ ብቻ ነው። መተግበሪያውን መዝጋት ይችላሉ።
+      </div>
+    </div>
+
+    <!-- ADMIN PIN -- second factor beyond just being staff on
+         Telegram. Shown on top of everything whenever an /api/admin/*
+         call comes back needing a fresh PIN (first entry, or after
+         the 30-minute token expires). -->
+    <div id="admin-pin-overlay" style="display:none">
+      <div id="admin-pin-card">
+        <div class="age-gate-emoji">🔐</div>
+        <div class="age-gate-title">Admin PIN</div>
+        <p class="age-gate-text">Admin Panel ለመግባት PIN ያስገቡ።</p>
+        <input type="password" id="admin-pin-input" inputmode="numeric" placeholder="PIN" maxlength="12">
+        <button id="admin-pin-submit">🔓 ግባ</button>
+        <button id="admin-pin-cancel">ይቅር</button>
+        <small id="admin-pin-error"></small>
+      </div>
+    </div>
+
+    <!-- ONE-TIME WELCOME CARD -- shown only the very first time this
+         Telegram user opens the Mini App (tracked in localStorage on
+         this device). Dismisses itself and never reappears. -->
+    <div id="welcome-overlay" style="display:none">
+      <div id="welcome-card">
+        <div id="welcome-emoji">☕✨</div>
+        <div id="welcome-title"></div>
+        <p id="welcome-sub">እንኳን ወደ Mini App በደህና መጡ! ይጫወቱ፣ ይወራረዱ፣ ያሸንፉ።</p>
+        <button id="welcome-close">🚀 ጀምር</button>
+      </div>
+    </div>
+
+    <div id="content" style="display:none">
+
+      <!-- KDM ICON SPRITE (inline, original line icons; referenced with <use href="#k-...">) -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="k-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#f5a30b"/></linearGradient>
+          <symbol id="k-logo" viewBox="0 0 40 40"><path d="M20 2 38 20 20 38 2 20Z" fill="url(#k-gold)"/><path d="M20 9 31 20 20 31 9 20Z" fill="#0a1a38"/><path d="M14 13h3v6l6-6h4l-7 7 7 7h-4l-6-6v6h-3Z" fill="url(#k-gold)"/></symbol>
+          <symbol id="k-home" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></symbol>
+          <symbol id="k-games" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></symbol>
+          <symbol id="k-market" viewBox="0 0 24 24"><path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12.5V20h13v-7.5"/></symbol>
+          <symbol id="k-deposit" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><path d="M12 12.5v4.5m-2.2-2.2 2.2 2.2 2.2-2.2"/></symbol>
+          <symbol id="k-withdraw" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><path d="M12 17v-4.5m-2.2 2.2 2.2-2.2 2.2 2.2"/></symbol>
+          <symbol id="k-wallet" viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2.5 2.5 0 0 0 2.5 2.5h12A1.5 1.5 0 0 0 20 18V9.5A1.5 1.5 0 0 0 18.5 8H6.5A2.5 2.5 0 0 1 4 7.5Z"/><circle cx="16.2" cy="13.8" r="1.1"/></symbol>
+          <symbol id="k-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-3.6 3.9-5.5 7.5-5.5s6.6 1.9 7.5 5.5"/></symbol>
+          <symbol id="k-headset" viewBox="0 0 24 24"><path d="M4.5 14v-2.5a7.5 7.5 0 0 1 15 0V14"/><rect x="3" y="13" width="4" height="6" rx="1.6"/><rect x="17" y="13" width="4" height="6" rx="1.6"/><path d="M19 19c0 1.4-1.8 2-4 2h-1.5"/></symbol>
+          <symbol id="k-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m12 7.5 3.8 2.8-1.4 4.4H9.6l-1.4-4.4Z"/><path d="M12 3.5v4M20 10.2l-4.2.1M17.2 18.4l-2.8-3.7M6.8 18.4l2.8-3.7M4 10.2l4.2.1"/></symbol>
+          <symbol id="k-invite" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.4"/><path d="M2.8 19.5c.7-3.2 3.1-5 6.2-5s5.5 1.8 6.2 5"/><path d="M18 8v6M15 11h6"/></symbol>
+          <symbol id="k-bell" viewBox="0 0 24 24"><path d="M6 17.5V11a6 6 0 0 1 12 0v6.5l1.5 1.5h-15Z"/><path d="M10 21h4"/></symbol>
+          <symbol id="k-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+          <symbol id="k-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
+          <symbol id="k-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+          <symbol id="k-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+          <symbol id="k-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6H4.5c0 3 1.5 4.5 3.7 4.8M16 6h3.5c0 3-1.5 4.5-3.7 4.8"/><path d="M12 13v4m-3.5 3h7M9.5 17h5"/></symbol>
+          <symbol id="k-flame" viewBox="0 0 24 24"><path d="M12 3c.5 3-1.5 4.2-3 6.3C7.2 11.700 6.500 13.200 7 15.300 7.600 18 9.700 20 12.200 20c3 0 5.300-2.300 5.300-5.300 0-2.200-1.100-3.400-2.100-4.700-.5 1-1.200 1.700-2 2 .5-3-.3-6-1.400-9Z"/></symbol>
+          <symbol id="k-star" viewBox="0 0 24 24"><path d="m12 3.800 2.500 5.300 5.800.7-4.300 4 1.100 5.700L12 16.600 6.900 19.500 8 13.800 3.700 9.800l5.800-.7Z"/></symbol>
+          <symbol id="k-spark" viewBox="0 0 24 24"><path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/></symbol>
+          <symbol id="k-copy" viewBox="0 0 24 24"><rect x="8.500" y="8.500" width="11" height="11" rx="2"/><path d="M15.500 8.500V6.500a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></symbol>
+          <symbol id="k-spin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><circle cx="12" cy="12" r="2"/><path d="M12 3.500v6.500M12 14v6.500M3.500 12H10M14 12h6.500"/></symbol>
+          <symbol id="k-gift" viewBox="0 0 24 24"><rect x="3.500" y="9" width="17" height="4" rx="1"/><path d="M5 13v7h14v-7M12 9v11"/><path d="M12 9C9.500 9 8 8 8 6.500S9.200 4 10.500 4C12 4 12 6.500 12 9Zm0 0c2.500 0 4-1 4-2.500S14.800 4 13.500 4C12 4 12 6.500 12 9Z"/></symbol>
+          <symbol id="k-ticket" viewBox="0 0 24 24"><path d="M3.500 8a1.500 1.500 0 0 1 1.500-1.500h14A1.500 1.500 0 0 1 20.500 8v2.200a1.800 1.800 0 0 0 0 3.600V16A1.500 1.500 0 0 1 19 17.500H5A1.500 1.500 0 0 1 3.500 16v-2.200a1.800 1.800 0 0 0 0-3.600Z"/><path d="M14 7v10" stroke-dasharray="1.500 2"/></symbol>
+          <symbol id="k-crown" viewBox="0 0 24 24"><path d="M4 8.500 8 12l4-6.500 4 6.500 4-3.500-1.500 9h-13Z"/></symbol>
+        </defs>
+      </svg>
+
+      <!-- KDM HEADER: logo - user - balance - deposit - bell - menu -->
+      <header id="topbar">
+        <button id="kdm-menu-btn" class="top-icon-btn" type="button" aria-label="Menu" aria-expanded="false"><svg class="ico"><use href="#k-menu"/></svg></button>
+        <button id="kdm-back" class="top-icon-btn" type="button" aria-label="Back" hidden><svg class="ico"><use href="#k-back"/></svg></button>
+        <div class="brand-lockup" id="brand-lockup">
+          <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#k-crown"/></svg>
+          <div class="brand-text"><span class="brand-name">King<b>Bet</b></span><span class="brand-tagline">Play • Win • Enjoy</span></div>
+        </div>
+        <div id="kdm-page-title" aria-live="polite"></div>
+        <button id="top-profile-btn" type="button" aria-label="Profile">
+          <span id="kdm-avatar">K</span>
+          <span id="kdm-user"><b id="kdm-user-name">&nbsp;</b><small id="kdm-user-id">&nbsp;</small></span>
+        </button>
+        <div class="top-actions">
+          <button id="balance-pill" type="button" aria-label="Balance"><span id="coin-icon" aria-hidden="true"></span><strong id="balance">0.00</strong><span class="currency">ETB</span></button>
+          <button id="top-deposit-btn" type="button">Deposit<span id="wallet-badge" class="dot-badge" style="display:none"></span></button>
+          <button class="top-icon-btn notification-btn" id="top-notification-btn" type="button" aria-label="Notifications"><svg class="ico"><use href="#k-bell"/></svg><span class="notif-dot"></span></button>
+        </div>
+        <span id="greeting" aria-hidden="true">ሰላም!</span>
+      </header>
+
+      <!-- SIDEBAR (desktop) / DRAWER (mobile, opened with the menu button) -->
+      <div id="side-scrim"></div>
+      <aside id="side-nav" aria-label="Main navigation">
+        <nav>
+          <button type="button" data-go="lobby" data-key="home"><svg class="ico"><use href="#k-home"/></svg><span>Home</span></button>
+          <button type="button" data-go="lobby" data-key="games"><svg class="ico"><use href="#k-games"/></svg><span>Games</span></button>
+          <button type="button" data-go="marketplace" data-key="marketplace"><svg class="ico"><use href="#k-market"/></svg><span>Marketplace</span></button>
+          <button type="button" data-go="sports" data-key="sports"><svg class="ico"><use href="#k-ball"/></svg><span>Sports</span></button>
+          <button type="button" data-go="wallet" data-wsub="deposit" data-key="deposit"><svg class="ico"><use href="#k-deposit"/></svg><span>Deposit</span></button>
+          <button type="button" data-go="wallet" data-wsub="withdraw" data-key="withdraw"><svg class="ico"><use href="#k-withdraw"/></svg><span>Withdraw</span></button>
+          <button type="button" data-go="wallet" data-wsub="history" data-key="wallet"><svg class="ico"><use href="#k-wallet"/></svg><span>My Wallet</span></button>
+          <button type="button" data-go="invite" data-key="invite"><svg class="ico"><use href="#k-invite"/></svg><span>Invite</span></button>
+          <button type="button" data-go="profile" data-key="profile"><svg class="ico"><use href="#k-user"/></svg><span>Profile</span></button>
+          <button type="button" data-go="profile" data-key="support" data-scroll=".support-box"><svg class="ico"><use href="#k-headset"/></svg><span>Support</span></button>
+        </nav>
+        <div id="side-foot"></div>
+      </aside>
+
+      <div id="home-banners" style="display:none"></div>
+
+      <!-- PAGES -->
+      <main id="pages">
+
+        <!-- LOBBY -->
+        <section id="page-lobby" class="page active">
+
+          <!-- HOME HERO: two cards, like the reference -->
+          <div class="reference-hero kdm-hero">
+            <div class="hero-main">
+              <div class="hero-coins" aria-hidden="true"><span>👑</span><i>🪙</i><i>🪙</i><i>🪙</i></div>
+              <div class="hero-copy">
+                <div class="reference-hero-title">PLAY • WIN • WITHDRAW</div>
+                <div class="reference-hero-sub">Your Favorite Games, All in One Place!</div>
+                <button type="button" class="hero-cta" data-quick-page="lobby" data-scroll="#game-grid">Start Playing</button>
+              </div>
+            </div>
+            <div class="hero-side">
+              <div class="hero-trophy" aria-hidden="true">🏆</div>
+              <div class="hero-side-title">Welcome Back!</div>
+              <div class="hero-side-sub">Good luck<br>and have fun!</div>
+            </div>
+          </div>
+
+          <!-- REAL RECENT WINS. Amounts come only from /api/wins/recent. -->
+          <div id="wins-banner">
+            <div class="wins-heading"><span>🏆</span><b>RECENT BIG WINS</b><span class="live-wins">Live Wins <i></i></span></div>
+            <div id="wins-track"><div id="wins-track-inner"></div></div>
+          </div>
+
+          <div class="quick-cabinet" aria-label="Quick access">
+            <button class="quick-cabinet-btn" data-quick-page="wheel"><svg class="ico"><use href="#k-spin"/></svg><b>Lucky Spin</b></button>
+            <button class="quick-cabinet-btn quick-new" data-quick-page="shamo"><svg class="ico"><use href="#k-gift"/></svg><b>Shamo</b><em>NEW</em></button>
+            <button class="quick-cabinet-btn" data-quick-page="wallet"><svg class="ico"><use href="#k-ticket"/></svg><b>Coupon</b></button>
+            <button class="quick-cabinet-btn" data-quick-page="profile"><svg class="ico"><use href="#k-crown"/></svg><b>VIP</b></button>
+            <button class="quick-cabinet-btn" data-quick-page="marketplace"><svg class="ico"><use href="#k-market"/></svg><b>Promo</b></button>
+            <button class="quick-cabinet-btn" data-quick-page="profile" data-scroll=".support-box"><svg class="ico"><use href="#k-headset"/></svg><b>Support</b></button>
+          </div>
+
+
+          <div class="kb-promos" aria-label="Offers">
+            <div class="kb-promo" data-quick-page="wallet" role="button" tabindex="0"><i>💰</i><b>Deposit<br>Now</b><small>Top up your wallet</small><span>Deposit ▸</span></div>
+            <div class="kb-promo" data-quick-page="invite" role="button" tabindex="0"><i>🎁</i><b>Invite<br>Friends</b><small>Share and earn</small><span>Invite ▸</span></div>
+            <div class="kb-promo" data-quick-page="profile" role="button" tabindex="0"><i>👑</i><b>VIP<br>Club</b><small>More benefits</small><span>Join ▸</span></div>
+          </div>
+
+          <div class="sports-promo" data-quick-page="sports" role="button" tabindex="0" aria-label="Sports betting">
+            <div class="sp-copy">
+              <div class="sp-title">BET ON<br><span>SPORTS</span></div>
+              <div class="sp-sub">Bigger Odds • More Markets</div>
+              <button type="button" class="sp-cta" data-quick-page="sports">Bet Now</button>
+            </div>
+            <div class="sp-art" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico"><use href="#k-ball"/></svg></div>
+          </div>
+
+          <div class="cabinet-tabs">
+            <button class="cabinet-tab active" data-cat="all"><svg class="ico"><use href="#k-home"/></svg> <b>Lobby</b></button>
+            <button class="cabinet-tab" data-cat="hot"><svg class="ico"><use href="#k-flame"/></svg> <b>Hot</b></button>
+            <button class="cabinet-tab" data-cat="popular"><svg class="ico"><use href="#k-star"/></svg> <b>Popular</b></button>
+            <button class="cabinet-tab" data-cat="new"><svg class="ico"><use href="#k-spark"/></svg> <b>New</b></button>
+            <button class="cabinet-tab" data-cat="slots"><svg class="ico"><use href="#k-star"/></svg> <b>Slots</b></button>
+            <button class="cabinet-tab" data-cat="crash"><svg class="ico"><use href="#k-flame"/></svg> <b>Crash</b></button>
+            <button class="cabinet-tab" data-cat="keno"><svg class="ico"><use href="#k-spark"/></svg> <b>Keno &amp; Spin</b></button>
+          </div>
+
+          <div class="search-wrap"><svg class="ico"><use href="#k-search"/></svg><input id="game-search" placeholder="Find a Game" autocomplete="off" /></div>
+
+          <div id="category-chips" style="display:none">
+            <button class="chip active" data-cat="all">ሁሉም</button>
+            <button class="chip" data-cat="hot">Hot</button>
+            <button class="chip" data-cat="fast">Fast</button>
+          </div>
+
+          <div class="section-heading-row"><div class="section-title" id="lobby-section-title">Popular Games</div><button class="view-all-btn" data-cat-view="all">View All</button></div>
+          <div id="game-grid" class="game-grid"></div>
+
+        </section>
+
+        <!-- BOOM GAME -->
+        <section id="page-boom" class="page">
+          <button class="back-btn" data-back="lobby">← Lobby</button>
+          <h2>💣 Boom Game</h2>
+          <p id="boom-info">⏳...</p>
+          <div id="boom-commitment-row">🔒 Commitment: <code id="boom-commitment"></code></div>
+          <div id="boom-grid" class="grid3"></div>
+          <ul id="boom-players"></ul>
+          <button id="boom-leave" class="danger">🚪 ውጣ (Leave)</button>
+
+          <button id="boom-history-toggle" class="link-btn">📜 ያለፉ ዙሮች ውጤት (Fairness Log)</button>
+          <div id="boom-history-panel" style="display:none">
+            <p class="fairness-note">እያንዳንዱ ዙር ካለቀ በኋላ የቦምብ ቦታዎች እና server seed እዚህ ይገለጣሉ -- ከላይ ከነበረው Commitment ጋር በማነጻጸር ውጤቱ አስቀድሞ እንዳልተቀየረ እርስዎ ራስዎ ማረጋገጥ ይችላሉ (SHA-256(seed) == commitment)።</p>
+            <ul id="boom-history-list"></ul>
+          </div>
+        </section>
+
+        <!-- NUMBER GAME -->
+        <section id="page-number" class="page">
+          <button class="back-btn" data-back="lobby">← Lobby</button>
+          <h2>🔢 Number Game</h2>
+          <p id="number-info">⏳...</p>
+          <div id="number-grid" class="grid5"></div>
+          <p id="number-result"></p>
+
+          <button id="number-history-toggle" class="link-btn">📜 ያለፉ ዙሮች ውጤት (Fairness Log)</button>
+          <div id="number-history-panel" style="display:none">
+            <p class="fairness-note">ተጫዋቾች ገንዘባቸውን በአንድ pool ያስገባሉ፤ ቤቱ 8% rake ብቻ ይወስዳል፣ የቀረው ለትክክለኛ ቁጥር ገምቶች ይከፈላል። አሸናፊ ከሌለ pool ወደ ቀጣዩ ዙር ይተላለፋል።</p>
+            <ul id="number-history-list"></ul>
+          </div>
+        </section>
+
+        <!-- SPORTS -->
+        <section id="page-sports" class="page">
+          <h2>⚽ Sports</h2>
+          <ul id="sports-list"></ul>
+        </section>
+
+        <!-- MARKETPLACE (consulting/coaching services) -->
+        <section id="page-marketplace" class="page">
+          <button class="back-btn" data-back="lobby">← Lobby</button>
+          <h2>🛍️ Marketplace</h2>
+          <p class="fairness-note">ክፍያ በ Escrow ተይዞ አገልግሎቱ ከቀረበ በኋላ ይለቀቃል። ወሲባዊ ወይም ኢ-ህጋዊ ይዘት/አገልግሎት በጥብቅ የተከለከለ ነው።</p>
+
+          <div class="admin-tabs">
+            <button class="mkt-tab active" data-mkt-tab="browse">🔍 አስስ</button>
+            <button class="mkt-tab" data-mkt-tab="my-services">🏪 የእኔ አገልግሎቶች</button>
+            <button class="mkt-tab" data-mkt-tab="my-sales">📦 የእኔ ሽያጭ</button>
+            <button class="mkt-tab" data-mkt-tab="my-purchases">🧾 የእኔ ግዢዎች</button>
+          </div>
+
+          <div id="mkt-browse" class="mkt-panel-section active">
+            <div class="mkt-discovery-bar">
+              <input id="mkt-search" type="search" placeholder="🔍 Search posts, creators, SMM...">
+              <select id="mkt-sort"><option value="new">🆕 Newest</option><option value="cheap">💰 Cheapest</option><option value="high">🔥 Highest price</option></select>
+            </div>
+            <div class="mkt-category-chips">
+              <button class="mkt-cat active" data-cat="">All</button><button class="mkt-cat" data-cat="SMM">SMM</button><button class="mkt-cat" data-cat="Education">Education</button><button class="mkt-cat" data-cat="Design">Design</button><button class="mkt-cat" data-cat="Entertainment">Entertainment</button><button class="mkt-cat" data-cat="Consulting">Consulting</button>
+            </div>
+            <div id="marketplace-list"></div>
+          </div>
+
+          <div id="mkt-my-services" class="mkt-panel-section">
+            <div id="mkt-create-form">
+              <label>ርዕስ</label>
+              <input type="text" id="mkt-new-title" maxlength="200" placeholder="ለምሳሌ፦ የCV ግምገማ">
+              <label>አገልግሎት / Post አይነት</label>
+              <select id="mkt-new-type">
+                <option value="photo">📷 Photo Service</option>
+                <option value="video">🎥 Video Service</option>
+                <option value="voice">🎤 Voice / Audio Service</option>
+                <option value="video_call">📹 Live Video Call</option>
+                <option value="audio_call">📞 Live Audio Call</option>
+              </select>
+              <label>Category</label>
+              <select id="mkt-new-category">
+                <option value="General">General</option>
+                <option value="SMM">SMM</option>
+                <option value="Education">Education</option>
+                <option value="Design">Design</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Consulting">Consulting</option>
+              </select>
+              <label>መግለጫ</label>
+              <textarea id="mkt-new-description" maxlength="1000" placeholder="ምን እንደምታቀርቡ፣ የdelivery ጊዜ፣ ምን ይደርሳል ወዘተ..."></textarea>
+              <label>Media (Photo / Video / Voice)</label>
+              <input type="file" id="mkt-new-sample" accept="image/*,video/*,audio/*" multiple>
+              <label>የይዘቱ / Call ቆይታ (ደቂቃ)</label>
+              <input type="number" id="mkt-new-duration" min="1" max="1440" step="1" placeholder="ለምሳሌ 30">
+              <small class="fairness-note">Photo / Video / Voice post ሲሆን media መጫን ግዴታ ነው። ፋይሉ በቀጥታ በTelegram Bot storage ይቀመጣል፤ በእኛ server ላይ permanent file አይቀመጥም። Live Call ከሆነ sample አያስፈልግም።</small>
+              <label>ዋጋ (ብር)</label>
+              <input type="number" id="mkt-new-price" min="1" step="0.01">
+              <button id="mkt-create-btn">➕ Post አድርግ</button>
+              <small id="mkt-create-status"></small>
+            </div>
+            <div id="mkt-my-services-list"></div>
+          </div>
+
+          <div id="mkt-my-sales" class="mkt-panel-section">
+            <p class="fairness-note">ደረሰኝ/ቪዲዮ/ድምጽ ስትልኩ በቀጥታ ወደ ገዢው Telegram chat ብቻ ይላካል -- በ server ላይ ምንም ፋይል አይቀመጥም።</p>
+            <div id="mkt-my-sales-list"></div>
+          </div>
+
+          <div id="mkt-my-purchases" class="mkt-panel-section">
+            <div id="mkt-my-purchases-list"></div>
+          </div>
+          <div id="marketplace-detail-modal" class="mkt-detail-modal" style="display:none">
+            <div class="mkt-detail-backdrop"></div>
+            <div class="mkt-detail-sheet" role="dialog" aria-modal="true">
+              <button id="mkt-detail-close" class="mkt-detail-close">✕</button>
+              <div id="mkt-detail-content"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- WALLET (deposit / withdraw / history sub-tabs) -->
+        <section id="page-wallet" class="page">
+          <h2 class="wallet-title">My Wallet</h2>
+          <div id="wallet-hero">
+            <div class="wh-label">Total Balance</div>
+            <div class="wh-amount"><span id="wallet-total">0.00</span> <small>ETB</small></div>
+            <div class="wh-actions">
+              <button type="button" class="wh-btn wh-deposit" data-wsub-go="deposit">Deposit</button>
+              <button type="button" class="wh-btn wh-withdraw" data-wsub-go="withdraw">Withdraw</button>
+            </div>
+          </div>
+          <div id="wallet-subtabs">
+            <button data-wsub="deposit" class="active">💳 Deposit</button>
+            <button data-wsub="withdraw">💸 Withdraw</button>
+            <button data-wsub="history">📜 History</button>
+          </div>
+
+          <div id="wsub-deposit" class="wsub active">
+            <ol class="wx-steps">
+              <li><b>1</b><span>ቁጥር ቅዱ</span></li>
+              <li><b>2</b><span>ይክፈሉ</span></li>
+              <li><b>3</b><span>Screenshot ይላኩ</span></li>
+              <li><b>4</b><span>Wallet ይሞላል</span></li>
+            </ol>
+            <div id="deposit-accounts"></div>
+            <form id="deposit-form">
+              <label>የከፈሉት መጠን (ብር) <small class="field-hint">ዝቅተኛ 1 ብር</small></label>
+              <input type="number" id="deposit-amount" min="1" step="0.01" inputmode="decimal" required>
+              <div class="wx-chips" data-fill="deposit-amount"><button type="button" data-v="10">10</button><button type="button" data-v="50">50</button><button type="button" data-v="100">100</button><button type="button" data-v="500">500</button></div>
+              <label>የክፍያ Screenshot</label>
+              <input type="file" id="deposit-screenshot" accept="image/*" required>
+              <img id="deposit-preview" style="display:none">
+              <button type="submit">✅ ላክ</button>
+            </form>
+            <p id="deposit-status"></p>
+          </div>
+
+          <div id="wsub-withdraw" class="wsub">
+            <form id="withdraw-form">
+              <div class="wx-avail">ማውጣት የሚችሉት: <b id="withdraw-avail">0.00</b> ብር</div>
+              <div class="pay-title">Choose a withdrawal method</div>
+              <div class="pay-methods" id="withdraw-methods">
+                <button type="button" data-method="CBE"><i class="pm-logo pm-cbe">C</i><b>CBE</b><small>Commercial Bank of Ethiopia</small></button>
+                <button type="button" data-method="BOA"><i class="pm-logo pm-boa">B</i><b>BOA</b><small>Bank of Abyssinia</small></button>
+                <button type="button" data-method="Telebirr"><i class="pm-logo pm-tele">T</i><b>Telebirr</b><small>Mobile Money</small></button>
+              </div>
+              <p id="withdraw-bonus-note" style="display:none;margin:6px 0;padding:8px 10px;border-radius:10px;background:rgba(245,158,11,.14);font-size:13px"></p>
+              <label>የሚያወጡት መጠን (ብር) <small class="field-hint">ዝቅተኛ 1 ብር</small></label>
+              <input type="number" id="withdraw-amount" min="1" step="0.01" inputmode="decimal" required>
+              <div class="wx-chips" data-fill="withdraw-amount"><button type="button" data-v="1">1</button><button type="button" data-v="10">10</button><button type="button" data-v="100">100</button><button type="button" data-v="max">ሁሉንም</button></div>
+              <label>የአካውንቱ ባለቤት ስም</label>
+              <input type="text" id="withdraw-name" autocomplete="name" required>
+              <label>የአካውንት ቁጥር</label>
+              <input type="text" id="withdraw-number" inputmode="numeric" autocomplete="off" required>
+              <label class="wx-remember"><input type="checkbox" id="withdraw-remember" checked> <span>ለቀጣይ አስታውስ</span></label>
+              <button type="submit">✅ ላክ</button>
+            </form>
+            <p id="withdraw-status"></p>
+          </div>
+
+          <div id="wsub-history" class="wsub">
+            <ul id="history-list"></ul>
+            <button id="history-more" style="display:none">ተጨማሪ ጫን</button>
+          </div>
+
+          <div class="responsible-gaming-note">
+            🛡️ <strong>ኃላፊነት የተሞላበት ጨዋታ፦</strong> ጨዋታ መዝናኛ እንጂ የገቢ ምንጭ አይደለም። ችግር እየገጠመዎት ከሆነ (ማቆም ካልቻሉ፣ ከአቅም በላይ እየተጫወቱ ከሆነ) እባክዎ ይራቁ እና ካስፈለገ የቅርብ ሰው ወይም ባለሙያ ያማክሩ።
+            <div id="support-contact-line"></div>
+          </div>
+
+          <button id="self-exclude-toggle" class="link-btn">🛑 እራስዎን ማገድ ይፈልጋሉ?</button>
+          <div id="self-exclude-panel" style="display:none">
+            <p class="fairness-note">
+              እራስዎን ካገዱ በኋላ ጊዜው እስኪያልቅ ድረስ <strong>ማንም (አስተዳዳሪም ቢሆን) ሊሰርዘው አይችልም</strong> -- ይሄ የእርስዎን ጥቅም ለመጠበቅ ሆን ተብሎ የተደረገ ነው። እርግጠኛ ሲሆኑ ብቻ ይምረጡ። ከመወሰንዎ በፊት ማውራት ከፈለጉ ድጋፍ ማግኘት ይችላሉ፦ <span id="support-contact-line-2"></span>
+            </p>
+            <div class="admin-btn-row">
+              <button class="self-exclude-btn" data-days="7">7 ቀናት</button>
+              <button class="self-exclude-btn" data-days="30">30 ቀናት</button>
+              <button class="self-exclude-btn" data-days="90">90 ቀናት</button>
+            </div>
+            <small id="self-exclude-status"></small>
+          </div>
+        </section>
+
+        <!-- INVITE -->
+        <section id="page-invite" class="page">
+          <h2>🎁 Invite Friends</h2>
+          <p>ጓደኞችዎን ይጋብዙ እና ሊንኩ ካገኙ ጓደኞችዎ ብዛት ይመልከቱ።</p>
+          <div class="invite-bonus-note" style="margin:8px 0;padding:10px 12px;border-radius:12px;background:rgba(59,130,246,.12)">
+            <b>🎁 የዛሬ Challenge</b><br>
+            <span id="invite-bonus-rule">ለእያንዳንዱ ለጋበዙት ሰው 1 ብር ቦነስ ያገኛሉ (10 ሰው = 10 ብር)።</span><br>
+            <small>ቦነሱ ለመጫወት ብቻ ነው -- ማውጣት አይቻልም። በቦነሱ ያሸነፉት ግን ማውጣት ይችላሉ።</small>
+            <div style="margin-top:6px">🎯 <b id="invite-progress">0/10</b> ሰዎች · 💰 ቦነስ ያገኙት: <b id="invite-earned">0.00</b> ብር</div>
+          </div>
+          <div id="invite-count-card">
+            <span>የጋበዙት ጓደኞች</span>
+            <strong id="invite-count">0</strong>
+          </div>
+          <input id="invite-link" readonly>
+          <button id="invite-copy">📋 ሊንክ ቅዳ</button>
+          <button id="invite-share">📤 Share</button>
+          <p id="invite-status"></p>
+          <div class="legal-links">
+            <a href="#" id="terms-link">📄 Terms of Service</a> · <a href="#" id="privacy-link">🔒 Privacy Policy</a>
+          </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="page-profile" class="page">
+          <h2>👤 Profile</h2>
+          <div id="profile-card">
+            <div id="profile-avatar"></div>
+            <div id="profile-name"></div>
+            <div id="profile-id"></div>
+            <div id="profile-balance"></div>
+          </div>
+          <button id="open-bot-chat">💬 ወደ ቦት Chat ተመለስ</button>
+          <button id="open-admin-panel" style="display:none">🛠️ Admin Panel</button>
+          <div class="support-box">
+            <h3>💬 Support</h3>
+            <textarea id="support-message-input" rows="4" maxlength="4000" placeholder="ጥያቄዎን ይጻፉ..."></textarea>
+            <input id="support-photo-input" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
+            <button id="support-send-btn">📩 ለAdmin ላክ</button>
+            <small id="support-status"></small>
+          </div>
+          <div class="legal-links">
+            <a href="#" id="terms-link-2">📄 Terms of Service</a> · <a href="#" id="privacy-link-2">🔒 Privacy Policy</a>
+          </div>
+        </section>
+
+        <!-- ADMIN PANEL (staff only -- hidden from regular users both by
+             the entry button above and by a server-side 403 on every
+             /api/admin/* call, so this is not "security by hiding a
+             button": even a curious user who finds this page in the
+             DOM gets nothing back from the API without staff rights. -->
+        <section id="page-admin" class="page">
+          <button class="back-btn" data-back="profile">← ተመለስ</button>
+          <div class="admin-header-row">
+            <h2>🛠️ Admin Panel</h2>
+            <button id="admin-lock-btn" title="PIN ዝጋ">🔒 ዝጋ</button>
+          </div>
+
+          <div id="admin-stats-grid"></div>
+
+          <div class="admin-bonus-box" id="admin-deposit-bonus-box">
+            <h3>🎁 Deposit Bounce / Bonus</h3>
+            <p class="admin-note">Approved deposit ከተደረገ በኋላ የተወሰነ ሰዓት ሲሞላ bonus በራሱ Wallet ውስጥ ይጨመራል። አንድ payment ላይ ሁለት ጊዜ አይሰጥም።</p>
+            <div id="admin-deposit-bonus-settings"></div>
+            <div id="admin-deposit-bonus-report"></div>
+          </div>
+
+          <div class="admin-tabs">
+            <button class="admin-tab active" data-admin-tab="economics">🎯 Game Economics</button>
+            <button class="admin-tab" data-admin-tab="marketplace">🛍️ Marketplace</button>
+            <button class="admin-tab" data-admin-tab="users">👥 Users</button>
+            <button class="admin-tab" data-admin-tab="logs">📜 Logs</button>
+          </div>
+
+          <!-- GAME ECONOMICS: house-edge-locked entry fee / win amount -->
+          <div id="admin-economics" class="admin-panel-section active">
+            <p class="admin-note">
+              ⚙️ <strong>Win Amount ራሱ በራሱ ይሰላል</strong> ከ Entry Fee እና House Edge በመነሳት -- በቀጥታ ማስተካከል አይቻልም።
+              ይህ ማለት House Edge ፈጽሞ በአጋጣሚ አይቀየርም፣ Entry Fee ብቻ ብትቀይሩ እንኳን።
+            </p>
+            <div id="admin-game-cards"></div>
+            <div id="admin-cabinet-game-cards" style="display:none"></div>
+          </div>
+
+          <!-- MARKETPLACE: moderation + escrow + reports -->
+          <div id="admin-marketplace" class="admin-panel-section">
+            <h3>🛡️ Marketplace Moderation / Trust & Safety</h3>
+            <div id="admin-marketplace-stats" class="admin-stat-grid"></div>
+            <div class="admin-search-row" style="margin:10px 0">
+              <select id="admin-mkt-status-filter"><option value="pending">Pending</option><option value="all">All</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="hidden">Hidden</option><option value="deleted">Deleted</option></select>
+              <button id="admin-mkt-refresh">🔄 Refresh</button>
+            </div>
+            <div id="admin-marketplace-moderation-list"></div>
+            <h3>🔒 በ Escrow የተያዙ (ውሳኔ የሚጠብቁ)</h3>
+            <div id="admin-escrow-list"></div>
+            <h3>🚩 ሪፖርቶች</h3>
+            <div id="admin-reports-list"></div>
+          </div>
+
+          <!-- USERS: search, adjust balance, ban/unban -->
+          <div id="admin-users" class="admin-panel-section">
+            <div class="admin-search-row">
+              <input id="admin-user-search" placeholder="🔍 User ID ወይም username ይፈልጉ">
+              <button id="admin-user-search-btn">ፈልግ</button>
+            </div>
+            <div id="admin-user-results"></div>
+          </div>
+
+          <!-- LOGS: audit trail + error log tail + reconciliation + sports overview -->
+          <div id="admin-logs" class="admin-panel-section">
+            <h3>🗄️ ኦፕሬሽን ሁኔታ</h3>
+            <div id="admin-ops-grid"></div>
+
+            <h3>🔁 Multi-Accounting ማንቂያ</h3>
+            <p class="admin-note">አንድ የባንክ/ቴሌብር አካውንት ከአንድ በላይ user_id ካገለገለ እዚህ ይታያል።</p>
+            <div id="admin-multiaccount-list"></div>
+
+            <h3>⬇️ CSV Export</h3>
+            <div class="admin-btn-row">
+              <a class="admin-export-link" href="#" data-export="reconciliation">⚖️ Reconciliation</a>
+              <a class="admin-export-link" href="#" data-export="actions">📋 Actions</a>
+              <a class="admin-export-link" href="#" data-export="users">👥 Users</a>
+            </div>
+
+            <h3>⚖️ Balance Reconciliation</h3>
+            <div id="admin-reconciliation-list"></div>
+            <h3>⚽ Sports Overview (view-only)</h3>
+            <p class="admin-note">አስተዳዳሪው ከዚህ ላይ ግጥሚያ መፍጠር እና HOME/DRAW/AWAY/VOID ውጤት በማስገባት ውርርዶችን በአንድ transaction ማስፈጸም ይችላል።</p>
+            <div id="admin-sports-list"></div>
+            <h3>📢 Announcements — Owner / Admin</h3>
+            <p class="admin-note">የጽሑፍ ማስታወቂያ ወይም Photo / Video / Voice ለተጠቃሚዎች በTelegram Bot ለመላክ። ANNOUNCEMENT_CHANNEL_ID ከተዘጋጀ በChannel ላይም ይለጠፋል።</p>
+            <textarea id="admin-announcement-text" rows="4" maxlength="4000" placeholder="የማስታወቂያ መልዕክት እዚህ ይጻፉ..."></textarea>
+            <label for="admin-announcement-game">🎮 «Play Now» ቁልፉ የሚከፍተው ጨዋታ (ተጫዋቹ ሲነካ በቀጥታ በዚህ ጨዋታ ላይ ይገባል)</label>
+            <select id="admin-announcement-game">
+              <option value="lobby">🏠 ሎቢ (ሁሉም ጨዋታዎች)</option>
+              <option value="sports">⚽ Sports</option>
+              <option value="marketplace">🛍 Marketplace</option>
+              <option value="wheel">🎡 Lucky Spin</option>
+              <option value="aviator">✈️ Aviator</option>
+              <option value="crash">📈 Crash</option>
+              <option value="rocket">🚀 Rocket</option>
+              <option value="highflyer">🛩️ High Flyer</option>
+              <option value="skymasters">🛫 Sky Masters</option>
+              <option value="jet">🚀 Jet</option>
+              <option value="keno">🎯 Keno</option>
+              <option value="fastkeno">⚡ Fast Keno</option>
+              <option value="keno_power">🎱 Power Keno</option>
+              <option value="keno_super">🟢 Super Keno</option>
+              <option value="keno_insta">💎 Insta Keno</option>
+              <option value="mines">💣 Mines</option>
+              <option value="boom">💣 Boom</option>
+              <option value="number">🔢 Number</option>
+              <option value="dice2">🎲 Dice</option>
+              <option value="plinko">🟣 Plinko</option>
+              <option value="roulette">🎡 Roulette</option>
+              <option value="bingo">🎱 Bingo</option>
+              <option value="slot">🎰 777 Slot</option>
+              <option value="triplegold">🔔 Triple Gold</option>
+              <option value="triplegold_deluxe">🔔 Triple Gold Deluxe</option>
+              <option value="flame">🔥 Flame Classics</option>
+              <option value="aztec">🗿 Aztec Gold</option>
+              <option value="buffalo">🦬 Buffalo Plains</option>
+              <option value="chicken">🐔 Chicken Road</option>
+              <option value="chicken2">🐔 Chicken Road 2</option>
+              <option value="rabbit">🐇 Rabbit Road</option>
+              <option value="roast">🔥 Chicken Roast</option>
+              <option value="tower">🏗 Tower</option>
+              <option value="fish">🐟 Fish</option>
+              <option value="penalty">⚽ Penalty Shootout</option>
+              <option value="penaltystreak">⚽ Penalty Streak</option>
+              <option value="coinstreak">🪙 Coin Flip</option>
+              <option value="blackjack">🃏 Blackjack</option>
+              <option value="baccarat">🎴 Baccarat</option>
+              <option value="dragontiger">🐉 Dragon Tiger</option>
+              <option value="andarbahar">🃏 Andar Bahar</option>
+              <option value="card">🃏 Card Table</option>
+            </select>
+            <label for="admin-announcement-media">📷 Photo / 🎞 GIF / 🎥 Video / 🎙️ Voice (optional, max 8MB)</label>
+            <input id="admin-announcement-media" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm,audio/ogg,audio/opus,audio/webm,audio/mpeg,audio/mp4,audio/aac,audio/x-m4a">
+            <button id="admin-announcement-send" class="admin-save-game">📢 ለተጠቃሚዎች ላክ / በBot ላይ አትም</button>
+            <small id="admin-announcement-status"></small>
+            <h3>📩 Support Inbox</h3>
+            <div id="admin-support-list"></div>
+            <h3>📋 Admin Action Log</h3>
+            <div id="admin-actions-list"></div>
+            <h3>🐞 የቅርብ ጊዜ Errors</h3>
+            <div id="admin-errors-list"></div>
+          </div>
+        </section>
+
+        <!-- TERMS / PRIVACY (simple in-app pages, no external hosting needed) -->
+        <section id="page-terms" class="page">
+          <button class="back-btn" data-back="profile">← ተመለስ</button>
+          <h2>📄 Terms of Service</h2>
+          <div class="legal-text">
+            <p><strong>1. አገልግሎቱ ስለ ምንድን ነው፦</strong> ይህ Mini App የገንዘብ ጨዋታ/ውርርድ አገልግሎት ነው። መጫወት ወይም መወራረድ የገንዘብ ኪሳራ ሊያስከትል ይችላል።</p>
+            <p><strong>2. ብቁነት፦</strong> ይህን አገልግሎት መጠቀም የሚችሉት 18 ዓመት እና ከዚያ በላይ የሆኑ ብቻ ናቸው።</p>
+            <p><strong>3. ተቀማጭ/ወጪ፦</strong> ተቀማጭ ገንዘብ ከማረጋገጫ (screenshot) ጋር ብቻ ተቀባይነት አለው። ወጪ ጥያቄዎች በአስተዳዳሪ ይታያሉ እና ጊዜ ሊወስዱ ይችላሉ።</p>
+            <p><strong>4. Marketplace (ምክክር/ስልጠና አገልግሎቶች)፦</strong> ክፍያ በ Escrow ተይዞ አገልግሎቱ ከቀረበ በኋላ ይለቀቃል። <strong>ወሲባዊ፣ እርቃን፣ ወይም ኢ-ህጋዊ ይዘት/አገልግሎት በጥብቅ የተከለከለ ነው።</strong> እንደዚህ አይነት ይዘት የለጠፈ creator ሂሳቡ ይታገዳል እና ገንዘቡ አይለቀቅም። ማንኛውም ተጠቃሚ "Report" በመጫን ጥሰት ሊያሳውቅ ይችላል።</p>
+            <p><strong>5. ኃላፊነት፦</strong> ኩባንያው ስለ ጨዋታ ውጤት ወይም ስለ ተጠቃሚ የገንዘብ ውሳኔ ሀላፊነት አይወስድም። በራስዎ ተጠያቂነት ይጫወቱ።</p>
+            <p><strong>6. ለውጦች፦</strong> እነዚህ ውሎች ያለማስጠንቀቂያ ሊቀየሩ ይችላሉ።</p>
+            <p><strong>7. ድጋፍ፦</strong> ጥያቄ ወይም ችግር ካለዎት ያግኙን፦ <span id="support-contact-line-3"></span></p>
+          </div>
+        </section>
+        <section id="page-privacy" class="page">
+          <button class="back-btn" data-back="profile">← ተመለስ</button>
+          <h2>🔒 Privacy Policy</h2>
+          <div class="legal-text">
+            <p><strong>1. የምንሰበስበው መረጃ፦</strong> የቴሌግራም መገለጫዎ (ስም፣ username፣ user ID)፣ የገንዘብ ግብይት ታሪክ፣ የከፈሉት screenshot።</p>
+            <p><strong>2. አጠቃቀም፦</strong> መረጃው ጥቅም ላይ የሚውለው ሂሳብዎን ለማስተዳደር፣ ተቀማጭ/ወጪ ለማረጋገጥ፣ እና አገልግሎቱን ለማሻሻል ብቻ ነው።</p>
+            <p><strong>3. ማጋራት፦</strong> መረጃዎ ለሶስተኛ ወገን አይሸጥም። ህጋዊ ግዴታ ካልገጠመ በስተቀር አይጋራም።</p>
+            <p><strong>4. ደህንነት፦</strong> ምንም ስርዓት 100% ደህንነቱ የተጠበቀ ስላልሆነ የተቻለንን ጥንቃቄ እናደርጋለን።</p>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- BOTTOM NAV -- 5 icons, same shape as the reference app.
+           Its top edge carries the same tilet motif via ::before in CSS. -->
+      <nav id="bottom-nav">
+        <button type="button" data-key="home"><span class="nav-icon"><svg class="ico"><use href="#k-home"/></svg></span><span>Home</span></button>
+        <button type="button" data-key="games"><span class="nav-icon"><svg class="ico"><use href="#k-games"/></svg></span><span>Games</span></button>
+        <button type="button" class="nav-crown" data-page="sports" data-key="sports"><span class="nav-icon"><svg class="ico"><use href="#k-ball"/></svg></span><span>Sports</span></button>
+        <button type="button" data-page="marketplace" data-key="marketplace"><span class="nav-icon"><svg class="ico"><use href="#k-market"/></svg></span><span>Marketplace</span></button>
+        <button type="button" data-page="profile" data-key="profile"><span class="nav-icon"><svg class="ico"><use href="#k-user"/></svg></span><span>Profile</span></button>
+      </nav>
+
+    </div>
+  </div>
+
+  <script src="app.js?v=20261110"></script>
+  <script src="premium.js?v=20261021"></script>
+  <script src="engagement.js?v=20261021"></script>
+  <script src="rewards.js?v=20261109"></script>
+  <script src="game_stage.js?v=20261021"></script>
+  <script src="onboarding.js?v=20261021"></script>
+  <script src="road_game.js?v=20261024"></script>
+  <script src="kdm_rabbit.js?v=20261109"></script>
+  <script src="kdm_penalty.js?v=20261110"></script>
+  <script src="kdm_chicken.js?v=20261111"></script>
+  <script src="new_games.js?v=20261024"></script>
+  <script src="kdm_ui.js?v=20261028"></script>
+  <script src="kdm_art.js?v=20261025"></script>
+  <script src="game_catalog.js?v=20261102"></script>
+  <script src="game_help.js?v=20261105b"></script>
+  <script src="game_fx.js?v=20261029"></script>
+  <script src="cards_ui.js?v=20261030"></script>
+  <script src="kdm_blackjack.js?v=20261112"></script>
+  <script src="kdm_baccarat.js?v=20261113"></script>
+  <script src="kdm_roulette.js?v=20261114"></script>
+  <script src="kdm_fish.js?v=20261115"></script>
+  <script src="kdm_aviator.js?v=20261101"></script>
+  <script src="kdm_highflyer_live.js?v=20261105b"></script>
+  <script src="kdm_skymasters_live.js?v=20261105b"></script>
+  <script src="kdm_mines.js?v=20261102"></script>
+  <script src="kdm_plinko.js?v=20261103"></script>
+  <script src="kdm_keno.js?v=20261103b"></script>
+  <script src="kdm_triplegold.js?v=20261105"></script>
+  <script src="kdm_flame.js?v=20261106"></script>
+  <script src="kdm_aztec.js?v=20261107"></script>
+  <script src="kdm_buffalo.js?v=20261108"></script>
+  <script src="coin_dice_ui.js?v=20261030"></script>
+  <script src="kdm_ingame.js?v=20261031"></script>
+  <script src="kdm_chicken2.js?v=20261030"></script>
+  <script src="kdm_boom.js?v=20261030"></script>
+  <script src="kdm_jet.js?v=20261030"></script>
+  <script src="kdm_rocket.js?v=20261031a"></script>
+  <script src="kdm_sports.js?v=20261030"></script>
+  <script src="kdm_wheel.js?v=20261030"></script>
+  <script src="kdm_bingo.js?v=20261030"></script>
+  <script src="kdm_fastkeno.js?v=20261031b"></script>
+  <script src="kdm_superkeno_live.js?v=20261105b"></script>
+  <script src="kdm_keno_live.js?v=20261105b"></script>
+  <script src="kdm_live_crash.js?v=20261105b"></script>
+  <script src="kdm_slot.js?v=20261030"></script>
+  <script src="kdm_number.js?v=20261105b"></script>
+  <script src="kdm_roast.js?v=20261030"></script>
+  <script src="kdm_fix.js?v=20261102"></script>
+  <script src="kdm_betpro.js?v=20261108"></script>
+  <script src="kdm_skin_skymasters.js?v=20261106"></script>
+  <script src="kdm_skin_highflyer.js?v=20261106"></script>
+  <script src="kdm_skin_crash.js?v=20261106"></script>
+  <script src="kdm_skin_aviator.js?v=20261106"></script>
+  <script src="kdm_skin_jet.js?v=20261106"></script>
+  <script src="kdm_covers.js?v=20261109"></script>
+  <script src="kdm_neon.js?v=hb3"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+/* KDM BINGO screen. */
+#page-bingo .bg-top{display:flex;align-items:center;gap:14px;padding:12px;border-radius:20px;border:1px solid #f9c006;background:linear-gradient(180deg,#1d1c17,#12110e);position:relative}
+#page-bingo .bg-ball{width:76px;height:76px;flex:none;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#fde68a,#f59e0b);color:#1a1205;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+#page-bingo .bg-ball small{font-size:12px;font-weight:900;line-height:1}#page-bingo .bg-ball b{font-size:30px;line-height:1.05}
+#page-bingo .bg-last{flex:1;min-width:0}#page-bingo .bg-last small{opacity:.7;font-size:12px;display:block;margin-bottom:6px}
+#page-bingo .bg-last div{display:flex;gap:5px;flex-wrap:wrap}
+#page-bingo .bg-last span{padding:5px 8px;border-radius:99px;font-size:11px;font-weight:800;color:#fff}
+#page-bingo .bg-cnt{position:absolute;right:10px;top:-12px;padding:5px 12px;border-radius:99px;background:#22201b;border:1px solid #f9c006;font-size:12px;font-weight:800;color:#fdeaab}
+#page-bingo .bg-card{padding:10px;border-radius:20px;border:1px solid #f9c006;background:#12110e}
+#page-bingo .bg-head,#page-bingo .bg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+#page-bingo .bg-head{margin-bottom:6px}
+#page-bingo .bg-head b{padding:7px 0;text-align:center;border-radius:8px;color:#fff;font-size:15px;font-weight:900}
+#page-bingo .bg-c{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid #f9c006;background:#181713;color:#fef6dc;font-weight:800;font-size:17px;transition:background .15s}
+#page-bingo .bg-c.mark{background:#2e2b24;border-color:#4ade80;color:#fff;box-shadow:0 0 10px rgba(74,222,128,.35)}
+#page-bingo .bg-c.line{background:#f59e0b;border-color:#fde68a;color:#1a1205;animation:bgPop .5s ease 2}
+@keyframes bgPop{50%{transform:scale(1.08)}}
+#page-bingo .bg-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#page-bingo .bg-stats div{padding:10px 12px;border-radius:14px;border:1px solid #f9c006;background:#191814;display:flex;flex-direction:column;gap:2px}
+#page-bingo .bg-stats small{font-size:11px;opacity:.65}#page-bingo .bg-stats b{font-size:17px}
+#page-bingo .bg-stats .bl{color:#fbd75f}#page-bingo .bg-stats .yl{color:#fbbf24}
+#page-bingo .bg-pay{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+#page-bingo .bg-pay div{padding:6px 4px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);text-align:center}
+#page-bingo .bg-pay small{display:block;font-size:10px;opacity:.65}#page-bingo .bg-pay b{font-size:13px;color:#fde68a}
+#page-bingo .bg-pay div.on{border-color:#4ade80;background:#161511}
+#page-bingo .bg-go{min-height:52px;border-radius:14px;border:0;background:linear-gradient(180deg,#fbbf24,#d97706);color:#1a1205;font-weight:900;font-size:18px;letter-spacing:.5px}
+#page-bingo .bg-go:disabled{opacity:.6}
+#page-bingo .kx-step{flex:1;min-width:0}
+#page-bingo .kx-step input{flex:1;min-width:0;width:100%;text-align:center;background:transparent;border:0;color:#fff;font-size:20px;font-weight:800}
+#page-bingo .fairness-note{display:none}
+#page-bingo .kx-row>.kx-step{flex:2.2}#page-bingo .kx-row>.bg-go{flex:1.6}
+#page-bingo .kx-step input{min-width:44px}
+#page-bingo .kx-row>.kdm-chip,#page-bingo .kx-row>.kdm-stake-chips{flex:none}
+#page-bingo .kx-row>.bg-go{min-width:110px}
+#page-bingo .kdm-stake-quick{flex:none!important;display:flex;gap:4px}
+#page-bingo .kdm-stake-quick button{min-width:34px;padding:0 6px}

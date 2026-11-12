@@ -1,0 +1,285 @@
+/* KDM PREMIUM ICON LAYER v2
+   Drop-in replacement for icons.css. Uses the SVG symbols already embedded in index.html.
+   No external icon fonts, image hosts, or JavaScript dependencies. */
+
+:root {
+  --kdm-gold: #f5c518;
+  --kdm-gold-light: #fff0a6;
+  --kdm-ink: #060605;
+  --kdm-panel: #0d0d0a;
+}
+
+/* QUICK ACCESS / VIP SHORTCUTS */
+.quick-cabinet {
+  gap: 10px !important;
+}
+.quick-cabinet-btn {
+  isolation: isolate;
+  position: relative;
+  min-height: 106px;
+  gap: 8px !important;
+  padding: 14px 8px 12px !important;
+  color: #fff !important;
+  background:
+    radial-gradient(ellipse at 50% 4%, rgba(255,222,99,.20), transparent 58%),
+    linear-gradient(155deg, #242016 0%, #0c0b09 48%, #060605 100%) !important;
+  border: 1px solid rgba(245,197,24,.34) !important;
+  border-radius: 15px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.11),
+    inset 0 -12px 22px rgba(0,0,0,.30),
+    0 7px 18px rgba(0,0,0,.25);
+  overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.quick-cabinet-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent 15%, rgba(255,255,255,.07) 34%, transparent 51%),
+    radial-gradient(circle at 50% 35%, rgba(245,197,24,.15), transparent 60%);
+}
+.quick-cabinet-btn::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(255,255,255,.045);
+  border-radius: 11px;
+  pointer-events: none;
+}
+.quick-cabinet-btn:active {
+  transform: scale(.965);
+  border-color: rgba(255,220,80,.85) !important;
+}
+.quick-cabinet-btn .kicon {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 54px;
+  height: 54px;
+  overflow: visible;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,.62)) drop-shadow(0 0 10px rgba(245,197,24,.25));
+  animation: kdmIconFloat 3.4s ease-in-out infinite;
+  transform-origin: 50% 65%;
+}
+.quick-cabinet-btn:nth-child(2n) .kicon { animation-delay: -.9s; }
+.quick-cabinet-btn:nth-child(3n) .kicon { animation-delay: -1.7s; }
+.quick-cabinet-btn b {
+  position: relative;
+  z-index: 1;
+  color: #f7f7f8;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: .15px;
+  text-shadow: 0 1px 5px rgba(0,0,0,.8);
+}
+.quick-cabinet-btn em {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  padding: 4px 7px;
+  color: #171006;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 950;
+  letter-spacing: .45px;
+  background: linear-gradient(135deg, #fff0a6, #f5c518 65%, #d99b05);
+  border-radius: 0 13px 0 8px;
+  box-shadow: 0 2px 8px rgba(245,197,24,.22);
+}
+.quick-cabinet-btn.quick-new { border-color: rgba(255,209,48,.66) !important; }
+
+/* BIG WINS: polished mini game artwork cards */
+#wins-banner {
+  position: relative;
+}
+.wins-heading {
+  gap: 9px;
+}
+.wins-heading > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(145deg, rgba(255,218,83,.18), rgba(245,197,24,.04));
+  border: 1px solid rgba(245,197,24,.22);
+}
+.wins-heading > span:first-child .kicon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0 2px 4px rgba(245,197,24,.25));
+}
+.win-chip {
+  flex: 0 0 112px;
+  width: 112px !important;
+  overflow: hidden;
+  border: 1px solid rgba(245,197,24,.23) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(180deg, #100f0d, #070706 82%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 5px 14px rgba(0,0,0,.22);
+  transition: transform .2s ease, border-color .2s ease;
+}
+.win-chip:active { transform: scale(.97); border-color: rgba(245,197,24,.6) !important; }
+.win-chip::before { display: none !important; }
+.win-art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 78px;
+  flex: 0 0 78px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255,255,255,.17), transparent 48%),
+    linear-gradient(145deg, #60401b, #0c0b09 76%);
+}
+.win-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .36;
+  background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+.win-art::after {
+  content: "";
+  position: absolute;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  filter: blur(18px);
+}
+.win-art svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 60px;
+  height: 60px;
+  overflow: visible;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,.62));
+  animation: kdmWinFloat 4s ease-in-out infinite;
+}
+.win-chip:nth-child(2n) .win-art svg { animation-delay: -1.4s; }
+.win-chip-title {
+  padding: 6px 8px 0 !important;
+  color: #fef2cb !important;
+  font-size: 11px !important;
+  font-weight: 750;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.win-chip .amt {
+  display: block;
+  padding: 3px 8px 8px !important;
+  color: #ffd94f !important;
+  font-size: 12px !important;
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(245,197,24,.16);
+}
+.win-art--plane, .win-art--jet { background: radial-gradient(circle at 50% 35%, #f9c006, transparent 55%), linear-gradient(145deg,#25231d,#0c0b09 78%); }
+.win-art--slot { background: radial-gradient(circle at 50% 38%, #d06b27, transparent 54%), linear-gradient(145deg,#6f210f,#1c0808 78%); }
+.win-art--mines { background: radial-gradient(circle at 50% 35%, #f9c006, transparent 54%), linear-gradient(145deg,#2e2b24,#0e0d0b 78%); }
+.win-art--dice { background: radial-gradient(circle at 50% 35%, #fad148, transparent 54%), linear-gradient(145deg,#f9c006,#0e0d0b 78%); }
+.win-art--keno { background: radial-gradient(circle at 50% 35%, #20a99a, transparent 54%), linear-gradient(145deg,#211f1a,#0a0a08 78%); }
+.win-art--chicken, .win-art--rabbit { background: radial-gradient(circle at 50% 35%, #d5a032, transparent 54%), linear-gradient(145deg,#6d470b,#1c1205 78%); }
+.win-art--plinko { background: radial-gradient(circle at 50% 35%, #fbd75f, transparent 54%), linear-gradient(145deg,#f9c006,#100f0c 78%); }
+.win-art--wheel, .win-art--trophy, .win-art--default { background: radial-gradient(circle at 50% 35%, #e5b83f, transparent 54%), linear-gradient(145deg,#765016,#211305 78%); }
+.win-art--ball, .win-art--number { background: radial-gradient(circle at 50% 35%, #28b879, transparent 54%), linear-gradient(145deg,#23211c,#0a0908 78%); }
+.win-art--card { background: radial-gradient(circle at 50% 35%, #fbd65c, transparent 54%), linear-gradient(145deg,#2a2821,#0b0a08 78%); }
+.win-art--fish { background: radial-gradient(circle at 50% 35%, #29b7d8, transparent 54%), linear-gradient(145deg,#075a70,#061821 78%); }
+
+/* GAME TILES: give artwork and badges a consistent premium finish */
+.game-card, .cabinet-game-card, .game-tile {
+  -webkit-tap-highlight-color: transparent;
+}
+.game-card:active, .cabinet-game-card:active, .game-tile:active {
+  transform: scale(.985);
+}
+.game-card img, .cabinet-game-card img, .game-tile img {
+  object-fit: cover;
+}
+
+/* BOTTOM NAV: clean outlined icons with a confident active state */
+#bottom-nav {
+  border-top: 1px solid rgba(245,197,24,.18);
+  background: linear-gradient(180deg, rgba(12,11,9,.98), #050504 80%) !important;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.24);
+}
+#bottom-nav .nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 0;
+}
+#bottom-nav .nicon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  overflow: visible;
+  color: #aeb4bf;
+  transition: transform .2s ease, filter .2s ease, color .2s ease;
+}
+#bottom-nav button {
+  position: relative;
+  transition: color .2s ease, background .2s ease;
+}
+#bottom-nav button.active {
+  color: #ffdc4d !important;
+  background: linear-gradient(180deg, rgba(245,197,24,.13), rgba(245,197,24,.025));
+}
+#bottom-nav button.active::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 22%;
+  right: 22%;
+  height: 2px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, transparent, #f5c518, transparent);
+  box-shadow: 0 0 10px rgba(245,197,24,.55);
+}
+#bottom-nav button.active .nicon {
+  color: #ffda45;
+  transform: translateY(-2px) scale(1.09);
+  filter: drop-shadow(0 0 6px rgba(245,197,24,.25));
+}
+#bottom-nav button span:last-child {
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .05px;
+}
+
+/* Accessibility and small-screen performance */
+@keyframes kdmIconFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-3px) rotate(1deg); }
+}
+@keyframes kdmWinFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-3px) rotate(1deg); }
+}
+@media (max-width: 380px) {
+  .quick-cabinet { gap: 7px !important; }
+  .quick-cabinet-btn { min-height: 96px; padding: 11px 5px 9px !important; }
+  .quick-cabinet-btn .kicon { width: 47px; height: 47px; }
+  .quick-cabinet-btn b { font-size: 11px; }
+  .win-chip { flex-basis: 104px; width: 104px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quick-cabinet-btn .kicon, .win-art svg { animation: none !important; }
+  .quick-cabinet-btn, .win-chip, #bottom-nav .nicon { transition: none !important; }
+}
