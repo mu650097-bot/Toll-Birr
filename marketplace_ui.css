@@ -1,0 +1,39 @@
+/* Marketplace: streaming-app style (type tabs, poster rows, locked content) */
+.mkt-type-tabs{display:flex;gap:18px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.mkt-type-tabs::-webkit-scrollbar,.mkt-row::-webkit-scrollbar{display:none}
+.mkt-type-tab{background:none!important;border:0!important;box-shadow:none!important;padding:6px 0 8px;font-size:1.05rem;font-weight:600;color:inherit;opacity:.6;white-space:nowrap;border-bottom:3px solid transparent!important;border-radius:0!important}
+.mkt-type-tab.active{opacity:1;font-weight:800;border-bottom-color:#22c55e!important}
+.mkt-section{margin:18px 0 6px}
+.mkt-section-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.mkt-section-head h3{margin:0;font-size:1.25rem}
+.mkt-pill{background:#f97316;color:#fff;border-radius:7px;padding:3px 8px;font-size:.78rem;font-weight:700;white-space:nowrap}
+.mkt-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:4px;scrollbar-width:none}
+.mkt-row .mkt-card-poster{flex:0 0 31%;min-width:104px;scroll-snap-align:start}
+.mkt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mkt-card-poster{cursor:pointer;min-width:0}
+.mkt-poster{position:relative;aspect-ratio:2/3;border-radius:12px;overflow:hidden;display:grid;place-items:center;box-shadow:0 8px 18px rgba(0,0,0,.28)}
+.mkt-poster-photo{background:linear-gradient(160deg,#0ea5e9,#1f1e19)}
+.mkt-poster-video{background:linear-gradient(160deg,#ef4444,#181713)}
+.mkt-poster-voice{background:linear-gradient(160deg,#22c55e,#100f0c)}
+.mkt-poster-call{background:linear-gradient(160deg,#fbd351,#161511)}
+.mkt-poster-icon{font-size:2.6rem;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+.mkt-poster::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.mkt-poster-type{position:absolute;left:6px;top:6px;z-index:2;font-size:.62rem;font-weight:700;background:rgba(0,0,0,.45);color:#fff;padding:2px 6px;border-radius:6px}
+.mkt-poster-lock{position:absolute;left:8px;bottom:6px;z-index:2;font-size:1.15rem}
+.mkt-poster-price{position:absolute;right:7px;bottom:6px;z-index:2;font-size:.95rem;font-weight:800;color:#fde68a;text-shadow:0 1px 4px #000}
+.mkt-poster-title{margin-top:6px;font-weight:700;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mkt-poster-sub{font-size:.74rem;opacity:.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mkt-full-list{width:100%;margin-top:10px;padding:13px;border-radius:12px;border:0;background:rgba(255,255,255,.08);color:inherit;font-weight:700;font-size:1rem}
+.mkt-detail-hero{height:200px;display:grid;place-items:center;position:relative;font-size:76px}
+.mkt-detail-hero i{position:absolute;right:16px;bottom:12px;font-style:normal;font-size:30px}
+.mkt-lock-note{margin:10px 0 2px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.07);font-size:.88rem}
+.mkt-poster.skeleton-card{min-height:150px}
+.mkt-poster-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.9}
+.mkt-poster-icon,.mkt-detail-hero>span{position:relative;z-index:1}
+.mkt-detail-hero{overflow:hidden}
+.mkt-poster-thumb~.mkt-poster-icon{opacity:.85}
+.mkt-type-tab,.mkt-cat{flex:0 0 auto!important;width:auto!important;min-width:max-content;overflow:visible!important;text-overflow:clip!important}
+.mkt-type-tabs,.mkt-category-chips{scrollbar-width:none}
+.mkt-panel-section{display:none}.mkt-panel-section.active{display:block}
+.mkt-status-tag{display:block;margin:6px 0;padding:6px 10px;border-radius:10px;font-size:.82rem;font-weight:700}
+.mkt-status-ok{background:rgba(34,197,94,.18);color:#86efac}.mkt-status-wait{background:rgba(251,191,36,.18);color:#fde68a}.mkt-status-bad{background:rgba(239,68,68,.18);color:#fca5a5}

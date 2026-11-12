@@ -1,0 +1,16 @@
+/* Triple Gold screen -- maroon cabinet, gold frame + ribbon, cream tiles, green payline on the middle row. */
+.tg-frame{position:relative;border:4px solid #d4a017;border-radius:22px;padding:30px 12px 12px;background:radial-gradient(120% 100% at 50% 0,#4a0f1c,#2a0610 70%)}
+.tg-ribbon{position:absolute;left:50%;top:-14px;transform:translateX(-50%);padding:6px 26px;border-radius:12px;background:linear-gradient(180deg,#f7d56a,#c8921a);color:#4a1a05;font-weight:900;letter-spacing:.18em;font-size:17px;white-space:nowrap}
+.tg-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tg-cell{aspect-ratio:1/0.92;border-radius:14px;background:linear-gradient(180deg,#fff6df,#f4d9a3);display:flex;align-items:center;justify-content:center;padding:12%;transition:transform .2s}
+.tg-cell svg{width:100%;height:100%;display:block}
+.tg-grid.spin .tg-cell{transform:scale(.96);filter:saturate(.8)}
+.tg-cell.win{box-shadow:0 0 0 3px #34d36b,0 0 16px rgba(52,211,107,.6);animation:tgpop .5s ease-out}
+.tg-line{position:absolute;left:-5px;right:-5px;top:33.3%;height:33.3%;border:3px solid #34d36b;border-radius:14px;pointer-events:none;box-shadow:0 0 12px rgba(52,211,107,.35)}
+.tg-win{text-align:center;margin-top:10px;font-weight:900;letter-spacing:.06em;font-size:20px;color:#fcd34d;min-height:26px}.tg-win b{color:#4ade80;font-size:24px}
+@keyframes tgpop{0%{transform:scale(.92)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.tg-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tg-stats .kx-tile b{font-size:24px}.tg-stats .kx-tile b.y{color:#fcd34d}
+.tg-bet label{font-size:13px;opacity:.7;display:block;margin:0 0 6px}
+.tg-row{display:flex;gap:10px;align-items:stretch;margin:0 0 10px}.tg-row:last-child{margin:0}.tg-row .kx-step{flex:1}
+.tg-ghost{min-height:52px;padding:0 16px;border-radius:14px;border:1px solid #f9c006;background:#1d1c17;color:#fdecb4;font-weight:800;font-size:15px}
+.tg-ghost.on{background:#f9c824;color:#fff}.tg-ghost:disabled{opacity:.5}.tg-auto{flex:0 0 96px}.tg-spin{flex:1;min-height:58px}

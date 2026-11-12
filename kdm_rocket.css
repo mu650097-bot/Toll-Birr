@@ -1,0 +1,29 @@
+/* ROCKET (kdm_rocket.js) -- purple night-sky theme. Relies only on shared .kx-msg / .kx-proof / .kx-note from new_games.css. */
+.rk-wrap{display:flex;flex-direction:column;gap:10px}
+.rk-sky{position:relative;height:330px;border-radius:20px;border:1px solid #f9c006;overflow:hidden;background:linear-gradient(180deg,#050504 0%,#1a1915 55%,#f9c006 100%)}
+.rk-sky canvas{position:absolute;inset:0;width:100%;height:100%}
+.rk-alt{position:absolute;left:14px;top:12px;pointer-events:none}.rk-alt small{display:block;font-size:11px;letter-spacing:2px;font-weight:700;color:#fdecb5}
+.rk-alt b{display:block;font-size:54px;font-weight:800;line-height:1;color:#fff;text-shadow:0 0 28px rgba(252,226,142,.8)}
+.rk-sky.crashed .rk-alt b{color:#fb7185}.rk-sky.won .rk-alt b{color:#4ade80}
+.rk-pill{position:absolute;bottom:12px;padding:4px 10px;border-radius:999px;background:rgba(5,5,4,.7);border:1px solid #f9c006;font-size:11px;color:#fef1c9}
+.rk-l{left:12px}.rk-r{right:12px}
+.rk-hist{display:flex;gap:6px;overflow:hidden;min-height:26px}
+.rk-hist span{padding:3px 9px;border-radius:8px;background:#27251e;color:#fef1c9;font-size:12px;font-weight:700;white-space:nowrap}
+.rk-hist span.lo{background:#3a0f1e;color:#ff9aab}.rk-hist span.hi{background:#161511;color:#4ade80}.rk-hist span.none{opacity:.6}
+.rk-bets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rk-bet{background:#161512;border:1px solid #f9c006;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rk-bt{font-size:11px;font-weight:700;color:#fdecb5;letter-spacing:1px}
+.rk-step{height:40px;border-radius:10px;background:#0c0b09;border:1px solid #f9c006;display:flex;align-items:center;padding:0 4px;gap:2px;box-sizing:border-box}
+.rk-step button{width:30px;height:30px;flex:none;border:0;border-radius:8px;background:#27251e;color:#fff;font-size:18px;padding:0}
+.rk-step input{flex:1;min-width:0;width:100%;border:0;background:transparent;color:#fff;text-align:center;font-weight:700;font-size:15px;padding:0;-moz-appearance:textfield}
+.rk-step input::-webkit-outer-spin-button,.rk-step input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.rk-go{min-height:54px;border:0;border-radius:12px;background:linear-gradient(180deg,#fbd557,#f9c61c);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;padding:0 6px}
+.rk-go span{font-weight:800;font-size:15px}.rk-go em{font-style:normal;font-weight:700;font-size:12px;opacity:.9}
+.rk-go.cash{background:linear-gradient(180deg,#fbd24d,#e0a30a);color:#2b1a00}
+.rk-go.queued{background:#161511;color:#4ade80;border:1px solid #4ade80}
+.rk-go:disabled,.rk-step button:disabled{opacity:.6}
+.rk-wins{background:#161512;border:1px solid #f9c006;border-radius:16px;padding:8px 12px;display:flex;flex-direction:column;gap:2px}
+.rk-wt{font-size:12px;font-weight:600;color:#fdecb5}
+.rk-wr{display:flex;font-size:12px;line-height:22px}.rk-wr .n{flex:1;color:#fef9e6}.rk-wr .s{width:70px;color:#fbdb70}.rk-wr .m{width:60px;color:#fef1c9;font-weight:600}.rk-wr .w{width:62px;text-align:right;color:#4ade80;font-weight:600}
+.rk-none{font-size:12px;opacity:.6;line-height:22px}
+@media (prefers-reduced-motion:reduce){.rk-go{transition:none}}

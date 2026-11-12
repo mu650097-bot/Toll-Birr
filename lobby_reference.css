@@ -1,0 +1,76 @@
+/* KDM lobby — reference look: black + gold, square cover tiles, Recent Big Wins cards.
+   Loaded LAST. Visual only: no game logic, routes or payouts are touched. */
+:root { --ref-gold:#f0b90b; --ref-bg:#0a0a0a; --ref-line:#25272a; }
+
+/* ---------- Recent Big Wins ---------- */
+#wins-banner { background:transparent!important; border:0!important; border-radius:0!important; padding:6px 0 4px!important; }
+.wins-heading { gap:10px!important; padding:0 2px 12px!important; font-size:19px!important; letter-spacing:.2px; }
+.wins-heading > span:first-child { width:14px; height:14px; background:var(--ref-gold); display:inline-block; font-size:0!important; flex:0 0 14px; }
+.wins-heading > span:first-child .kicon { display:none; }
+.wins-heading b { color:#fff; font-weight:900; text-transform:uppercase; }
+#wins-track-inner { gap:12px!important; padding:0 2px 6px!important; }
+
+.win-chip { width:92px!important; min-height:0!important; padding:0!important; background:transparent!important; border:0!important;
+  border-radius:0!important; backdrop-filter:none!important; justify-content:flex-start!important; overflow:visible!important; color:#fff; }
+.win-chip::after { display:none!important; }
+.win-art { width:92px; height:92px; flex:0 0 92px!important; border-radius:2px; border:1px solid rgba(255,255,255,.06); }
+.win-art svg { width:62px; height:62px; }
+.win-user { display:flex; align-items:center; gap:6px; margin-top:7px; min-width:0; }
+.win-av { flex:0 0 16px; width:16px; height:16px; border-radius:2px; color:#fff; font:900 10px/16px system-ui,sans-serif; text-align:center; font-style:normal; }
+.win-user span { font-size:12.5px; font-weight:800; color:#f2f2f2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+.win-chip .amt { display:block; text-align:center; padding:4px 0 0!important; font-size:15px!important; font-weight:900!important; color:var(--ref-gold)!important; }
+
+/* ---------- Tabs ---------- */
+.cabinet-tabs { background:transparent!important; border:0!important; border-top:1px solid var(--ref-line)!important; border-bottom:1px solid var(--ref-line)!important;
+  gap:0!important; margin:6px -2px 14px!important; overflow-x:auto!important; scrollbar-width:none; }
+.cabinet-tabs::-webkit-scrollbar { display:none; }
+.cabinet-tab { flex:0 0 auto!important; display:flex; align-items:center; gap:8px; padding:14px 18px!important; border:0!important; border-radius:0!important;
+  background:transparent!important; color:#c9cacc!important; font-size:16px!important; font-weight:800; box-shadow:none!important; }
+.cabinet-tab b { font-weight:800; }
+.cabinet-tab.active { background:var(--ref-gold)!important; color:#16120a!important; }
+.tico { width:22px; height:22px; flex:0 0 22px; display:inline-block; vertical-align:-5px; }
+
+/* ---------- Search ---------- */
+.search-wrap { position:relative; margin:0 0 20px; }
+.search-wrap .tico { position:absolute; left:16px; top:50%; width:26px; height:26px; transform:translateY(-50%); color:#9a9c9f; pointer-events:none; }
+#game-search { height:54px!important; padding:0 16px 0 58px!important; margin:0!important; width:100%; box-sizing:border-box;
+  border-radius:2px!important; border:1px solid #2b2e31!important; background:#0b0b0c!important; color:#fff!important; font-size:18px!important; }
+#game-search::placeholder { color:#8d9094!important; }
+
+/* ---------- Section titles ---------- */
+.section-heading-row { margin:6px 0 10px; }
+.section-title { display:flex; align-items:center; gap:10px; color:#fff!important; font-size:22px!important; font-weight:900!important; margin:6px 0 10px; text-shadow:none!important; }
+.section-title .tico { color:var(--ref-gold); width:24px; height:24px; }
+.view-all-btn { color:#9a9c9f!important; font-size:15px!important; font-weight:700!important; }
+
+/* ---------- Game tiles: square cover + name under it ---------- */
+.game-card { background:transparent!important; border:0!important; box-shadow:none!important; border-radius:0!important; padding:0!important; overflow:visible!important; }
+.game-card:not(.muted):hover { transform:none!important; box-shadow:none!important; }
+.game-card:active { transform:scale(.98)!important; }
+.game-thumb.game-cover { aspect-ratio:1/1!important; width:100%; margin:0 0 9px!important; border-radius:2px!important; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.05);
+  background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--card-c1) 80%,#fff 8%),transparent 62%),
+    linear-gradient(160deg,var(--card-c1),var(--card-c2))!important; }
+.game-thumb.game-cover::before { content:""; position:absolute; inset:0; z-index:0!important; opacity:.35!important; border:0!important;
+  background:repeating-linear-gradient(125deg,transparent 0 14px,rgba(255,255,255,.07) 15px 17px)!important; }
+.game-thumb.game-cover::after { content:""; position:absolute; left:0!important; right:0!important; top:0!important; bottom:0!important; height:auto!important; transform:none!important; z-index:0!important; border:0!important;
+  background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.62))!important; }
+.cover-art { position:absolute; top:9%; left:50%; width:62%; height:62%; transform:translateX(-50%); z-index:1;
+  filter:drop-shadow(0 5px 8px rgba(0,0,0,.55)); }
+.cover-title { position:absolute; left:4px; right:4px; bottom:7px; z-index:2; text-align:center; text-transform:uppercase;
+  font:1000 clamp(12px,3.9vw,16px)/1 "Arial Black",Impact,system-ui,sans-serif; letter-spacing:-.2px; color:#ffe27a;
+  -webkit-text-stroke:.6px rgba(90,40,0,.9); text-shadow:0 2px 0 rgba(90,40,0,.85),0 3px 8px rgba(0,0,0,.8); }
+.game-badge { top:0!important; right:0!important; left:auto!important; z-index:3; border-radius:0!important; background:var(--ref-gold)!important; color:#1a1405!important;
+  padding:5px 9px!important; font-size:12px!important; font-weight:800!important; letter-spacing:.3px; box-shadow:none!important; }
+.game-name { padding:0 2px!important; color:#fff!important; font-size:clamp(13px,4vw,17px)!important; font-weight:800!important; line-height:1.2;
+  text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* Hot / Popular as horizontal rows (2 lines for Hot, 1 line for Popular) on the lobby home */
+body.lobby-home #game-grid, body.lobby-home #game-grid-popular { display:grid!important; grid-auto-flow:column; grid-auto-columns:calc((100% - 22px) / 3.35);
+  gap:14px 11px!important; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; scrollbar-width:none; margin-right:-12px; padding-right:12px; }
+body.lobby-home #game-grid { grid-template-rows:repeat(2,auto)!important; grid-template-columns:none!important; }
+body.lobby-home #game-grid-popular { grid-template-rows:auto!important; grid-template-columns:none!important; }
+body.lobby-home #game-grid::-webkit-scrollbar, body.lobby-home #game-grid-popular::-webkit-scrollbar { display:none; }
+body.lobby-home .game-card { scroll-snap-align:start; }
+#game-grid-popular { margin-bottom:14px; }
+@media (max-width:380px) { .win-chip, .win-art { width:84px!important; } .win-art { height:84px; flex-basis:84px!important; } }

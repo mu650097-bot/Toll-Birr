@@ -1,0 +1,59 @@
+/* PREMIUM UI/MOTION LAYER - additive only, loaded after style.css */
+:root{--ease:cubic-bezier(.22,1,.36,1);--glow:0 0 24px rgba(224,169,65,.35)}
+body{background:radial-gradient(120% 60% at 50% -10%,#161511 0,var(--bg) 60%) fixed}
+/* glass header */
+#topbar{backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);background:rgba(11,11,9,.72)!important;border-bottom:1px solid rgba(243,207,133,.12)}
+#balance-pill{background:linear-gradient(135deg,rgba(224,169,65,.22),rgba(224,169,65,.06));border:1px solid rgba(243,207,133,.35);box-shadow:var(--glow);transition:transform .3s var(--ease)}
+#balance-pill:active{transform:scale(.94)}
+#balance-pill.pulse{animation:balPop .6s var(--ease)}
+@keyframes balPop{40%{transform:scale(1.12);box-shadow:0 0 34px rgba(243,207,133,.7)}}
+/* hero: animated shine + floating treasure */
+.reference-hero{position:relative;overflow:hidden;border-radius:20px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+.reference-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-120%);animation:heroShine 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes heroShine{60%,100%{transform:translateX(120%)}}
+.hero-treasure{animation:treasureFloat 3.2s ease-in-out infinite;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+@keyframes treasureFloat{50%{transform:translateY(-8px) rotate(-2deg)}}
+.hero-new{animation:badgePulse 1.8s ease-in-out infinite}
+@keyframes badgePulse{50%{transform:scale(1.12)}}
+/* quick buttons + game cards: lift, glow, press */
+.quick-cabinet-btn,.game-card,.chip,#bottom-nav button{transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s,background .25s;will-change:transform}
+.quick-cabinet-btn:active,.game-card:active{transform:scale(.94)}
+.quick-cabinet-btn span{display:inline-block;animation:iconBob 3s ease-in-out infinite}
+.quick-cabinet-btn:nth-child(even) span{animation-delay:.8s}
+@keyframes iconBob{50%{transform:translateY(-3px) scale(1.08)}}
+.game-card{border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.3);overflow:hidden}
+.game-card:not(.muted):hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,.45),var(--glow)}
+.game-thumb-icon{display:inline-block;animation:iconBob 3.4s ease-in-out infinite}
+.game-card:nth-child(3n) .game-thumb-icon{animation-delay:.6s}
+.game-card:nth-child(3n+1) .game-thumb-icon{animation-delay:1.2s}
+/* scroll reveal (class added by premium.js) */
+.reveal{opacity:0;transform:translateY(18px) scale(.98)}
+.reveal.in{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .6s var(--ease);transition-delay:var(--d,0ms)}
+/* page transition */
+.page.active{animation:pageIn .45s var(--ease) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+/* buttons: gradient + ripple */
+button{position:relative;overflow:hidden}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(3.2);opacity:0}}
+/* bottom nav: glass + active indicator */
+#bottom-nav{backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);background:rgba(11,11,9,.78)!important;border-top:1px solid rgba(243,207,133,.14)}
+#bottom-nav button.active{color:var(--gold-soft)}
+#bottom-nav button.active .nav-icon{animation:navJump .5s var(--ease);filter:drop-shadow(0 0 8px rgba(243,207,133,.7))}
+#bottom-nav button.active::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,var(--gold-deep),var(--gold-soft));box-shadow:0 0 12px var(--gold)}
+@keyframes navJump{40%{transform:translateY(-6px) scale(1.2)}}
+/* modals/overlays: spring in */
+#welcome-card,#age-gate-card,#admin-pin-card,.mkt-call-modal>*{animation:cardSpring .55s var(--ease) both}
+@keyframes cardSpring{from{opacity:0;transform:translateY(30px) scale(.9)}to{opacity:1;transform:none}}
+#welcome-emoji{display:inline-block;animation:treasureFloat 2.6s ease-in-out infinite}
+/* loading shimmer + spinner polish */
+#loading{animation:loadPulse 1.4s ease-in-out infinite}
+@keyframes loadPulse{50%{opacity:.45}}
+/* live wins ticker: soft edge fade */
+#wins-track{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.win-chip{border:1px solid rgba(243,207,133,.2);backdrop-filter:blur(6px)}
+/* game result card + slot reel spin */
+.game-result{animation:cardSpring .5s var(--ease) both}
+.slot-reel.spinning{animation:reelSpin .12s linear infinite}
+@keyframes reelSpin{to{transform:rotateX(8deg) translateY(6px);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.reference-hero::after{display:none}}

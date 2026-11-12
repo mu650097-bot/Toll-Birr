@@ -1,0 +1,146 @@
+/* KDM NEON HOME (overlay, load LAST after kdm_betpro.css).
+   Restyles the home / lobby to the purple-neon "KDM Mini App" look:
+   header, rotating welcome + winners banner, category pills, game cover tiles, bottom nav.
+   Presentation only -- no game, wallet or API logic is touched. */
+:root {
+  --kn-bg: #0d0d0a; --kn-bg2: #161511; --kn-line: rgba(252,222,123, .45);
+  --kn-gold: #ffd23f; --kn-gold2: #f59e0b; --kn-violet: #facf42; --kn-text: #fff;
+}
+html, body { background: radial-gradient(120% 60% at 50% 0%, #24221c 0%, #181713 38%, var(--kn-bg) 100%) fixed !important; color: var(--kn-text); }
+
+/* ---------- header ---------- */
+body #topbar { background: linear-gradient(#1b1a15, rgba(13,13,10, .96)) !important; border-bottom: 1px solid var(--kn-line) !important; box-shadow: 0 6px 24px rgba(250,207,65, .25); }
+body #topbar .brand-lockup, body #topbar .brand-lockup .brand-text, body #topbar .brand-lockup .brand-name { background: none !important; border: 0 !important; box-shadow: none !important; }
+body #topbar .brand-lockup { display: flex !important; align-items: center; gap: 6px; }
+body #topbar .brand-lockup .brand-mark { display: none !important; }
+body #topbar .brand-lockup .brand-text { display: flex !important; flex-direction: column; line-height: 1; visibility: visible !important; opacity: 1 !important; width: auto !important; max-width: none !important; }
+body #topbar .brand-lockup .brand-name { font: italic 900 26px/1 "Inter", system-ui, sans-serif !important; color: #fff !important; letter-spacing: -.01em; }
+body #topbar .brand-lockup .brand-name::before { content: "\1F451"; font-style: normal; font-size: 26px; margin-right: 6px; filter: drop-shadow(0 0 8px rgba(255, 210, 63, .85)) !important; vertical-align: -2px; }
+body #topbar .brand-lockup .brand-tagline { display: block !important; font: italic 800 13px/1 "Inter", system-ui, sans-serif; color: var(--kn-gold); letter-spacing: .01em; margin: 1px 0 0 34px; }
+@media (max-width: 390px) { body #topbar .brand-text { display: flex !important; } body #topbar .brand-lockup .brand-name { font-size: 22px !important; } body #topbar .brand-lockup .brand-tagline { margin-left: 30px; font-size: 11px; } }
+body #balance-pill { background: linear-gradient(#1e1d18, #12110e) !important; border: 1.5px solid rgba(255, 210, 63, .55) !important; border-radius: 999px !important; box-shadow: 0 0 16px rgba(255, 190, 40, .22); padding-left: 6px !important; }
+body #balance-pill strong { color: #fff !important; font-weight: 900; }
+body #balance-pill .currency { color: #fff !important; font-weight: 800; }
+body #top-deposit-btn { border-radius: 50% !important; width: 38px !important; height: 38px !important; min-width: 38px !important; background: radial-gradient(circle at 35% 30%, #5dff8a, #12a83f) !important; box-shadow: 0 0 16px rgba(60, 240, 110, .55) !important; border: 2px solid #b9ffcf !important; color: #fff !important; }
+body #top-deposit-btn::before { color: #fff; }
+body #top-notification-btn { position: relative; }
+body #top-notification-btn .notif-dot { position: absolute; top: 3px; right: 3px; width: 11px; height: 11px; min-width: 0; border-radius: 50%; background: #ff2d55; border: 2px solid #181713; box-shadow: 0 0 8px rgba(255, 45, 85, .8); }
+body #top-profile-btn { background: transparent !important; border: 0 !important; padding: 0 !important; position: relative; }
+body #top-profile-btn #kdm-user { display: none !important; }
+body #top-profile-btn #kdm-avatar { width: 42px !important; height: 42px !important; border-radius: 50% !important; border: 2.5px solid #ffd23f !important; background: linear-gradient(#ffb02e, #b8470f) !important; color: #fff !important; font-weight: 900; box-shadow: 0 0 14px rgba(255, 210, 63, .5); }
+body #top-profile-btn::after { content: ""; position: absolute; right: 0; bottom: 0; width: 12px; height: 12px; border-radius: 50%; background: #23e06b; border: 2px solid #181713; }
+
+/* ---------- hide the older home blocks (betpro hero / sports switch / old hero) ---------- */
+body #page-lobby #bp-hero, body #page-lobby #bp-toggle, body #page-lobby #bp-sports,
+body #page-lobby .reference-hero, body #page-lobby .quick-cabinet, body #page-lobby .sports-promo,
+body #page-lobby .cabinet-tabs { display: none !important; }
+body[data-bp-mode="sports"] #game-grid { display: grid !important; }
+body[data-bp-mode="sports"] #page-lobby .section-heading-row { display: flex !important; }
+
+/* ---------- rotating banner: welcome + recent winners ---------- */
+#kn-hero { position: relative; margin: 10px 0 12px; border-radius: 22px; overflow: hidden; min-height: 150px;
+  border: 1.5px solid rgba(252,227,143, .65); background: linear-gradient(120deg, #f9c006, #1e1d18 55%, #f9c006);
+  box-shadow: 0 0 26px rgba(250,209,75, .45), inset 0 0 40px rgba(255, 255, 255, .05); }
+#kn-hero .kn-slides { display: flex; width: 100%; transition: transform .6s cubic-bezier(.4, .1, .2, 1); will-change: transform; }
+#kn-hero .kn-slide { flex: 0 0 100%; min-height: 150px; padding: 16px 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 6px; position: relative; text-align: center; cursor: pointer; }
+.kn-slide .kn-side { font-size: 64px; line-height: 1; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .5)); flex: none; animation: kn-float 3.2s ease-in-out infinite; }
+.kn-slide .kn-side.r { animation-delay: -1.4s; }
+.kn-slide .kn-mid { flex: 1; min-width: 0; }
+.kn-slide h2 { margin: 0; font: italic 900 25px/1.1 "Inter", system-ui, sans-serif; color: #fff; text-shadow: 0 3px 12px rgba(0, 0, 0, .55); }
+.kn-slide h2 b { color: var(--kn-gold); }
+.kn-slide p { margin: 5px 0 10px; font: italic 700 15px/1.2 "Inter", system-ui, sans-serif; color: #fef9e7; }
+.kn-cta { border: 0 !important; padding: 9px 22px !important; border-radius: 999px !important; background: linear-gradient(#ffe36a, #f5a30b) !important; color: #2b1500 !important; font-weight: 900 !important; font-size: 16px !important; box-shadow: 0 5px 16px rgba(255, 190, 40, .5); }
+.kn-slide.win .kn-amt { display: block; font: 900 30px/1.05 "Inter", system-ui, sans-serif; color: var(--kn-gold); text-shadow: 0 0 16px rgba(255, 210, 63, .6); }
+.kn-slide.win .kn-who { display: block; font: 800 15px/1.25 system-ui; color: #fff; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kn-slide.win .kn-where { display: block; font: 700 13px/1.3 system-ui; color: #fef1c9; margin-top: 2px; }
+.kn-slide.win .kn-x { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 8px; background: rgba(61, 220, 132, .2); color: #6dff9e; font-weight: 900; }
+.kn-slide.win .kn-thumb { width: 74px; height: 74px; border-radius: 16px; background: #25231d center / cover no-repeat; border: 2px solid var(--kn-gold); box-shadow: 0 0 18px rgba(255, 210, 63, .5); flex: none; display: grid; place-items: center; font-size: 38px; }
+.kn-live { position: absolute; top: 10px; left: 12px; z-index: 3; display: none; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; background: rgba(0, 0, 0, .38); color: #fff; font: 900 11px/1.4 system-ui; letter-spacing: .06em; }
+#kn-hero.on-win .kn-live { display: inline-flex; }
+.kn-live i { width: 8px; height: 8px; border-radius: 50%; background: #23e06b; box-shadow: 0 0 10px #23e06b; animation: kn-pulse 1.2s infinite; }
+.kn-dots { position: absolute; left: 0; right: 0; bottom: 8px; display: flex; justify-content: center; gap: 6px; z-index: 3; }
+.kn-dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, .4); transition: all .3s; }
+.kn-dots i.on { width: 20px; border-radius: 6px; background: var(--kn-gold); }
+@keyframes kn-float { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-7px) rotate(3deg); } }
+@keyframes kn-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* ---------- winners marquee (same real data, neon style) ---------- */
+body #page-lobby #wins-banner { background: linear-gradient(#1f1d18, #12110e) !important; border: 1.5px solid var(--kn-line) !important; border-radius: 20px !important; box-shadow: 0 0 18px rgba(250,207,65, .25); }
+body #page-lobby #wins-banner .wins-heading b { color: #fff; }
+body #page-lobby #wins-banner .live-wins { background: rgba(35, 224, 107, .15) !important; color: #5dff8a !important; border-radius: 999px; }
+body .win-chip { background: linear-gradient(#26241e, #181713) !important; border: 1px solid rgba(255, 210, 63, .4) !important; border-radius: 16px !important; }
+body .win-chip .amt { color: var(--kn-gold) !important; }
+
+/* ---------- category pills ---------- */
+#kn-pills { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 0 12px; padding: 2px 1px 4px; }
+#kn-pills::-webkit-scrollbar { display: none; }
+#kn-pills button { flex: none; display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 15px !important; border-radius: 999px !important; border: 1.5px solid rgba(252,222,123, .45) !important; background: linear-gradient(#22201b, #181613) !important; color: #fff !important; font-weight: 800; font-size: 14px; white-space: nowrap; }
+#kn-pills button i { font-style: normal; font-size: 18px; }
+#kn-pills button.on { background: linear-gradient(#fbd75f, #f9c312) !important; border-color: #fdedba !important; box-shadow: 0 0 16px rgba(251,214,94, .6); }
+
+/* ---------- section heading ---------- */
+body #page-lobby .section-title { font-weight: 900 !important; font-size: 20px !important; color: #fff !important; }
+body #page-lobby .view-all-btn { color: var(--kn-gold) !important; background: none !important; border: 0 !important; font-weight: 800 !important; }
+body #game-search { background: #181713 !important; border: 1.5px solid var(--kn-line) !important; color: #fff !important; border-radius: 999px !important; }
+
+/* ---------- game tiles ---------- */
+body #game-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 10px !important; }
+@media (min-width: 560px) { body #game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+@media (min-width: 900px) { body #game-grid { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; } }
+body #game-grid .game-card { position: relative; aspect-ratio: 1 / 1.12; border-radius: 18px !important; overflow: hidden; padding: 0 !important;
+  border: 2px solid rgba(252,227,143, .7) !important; background: linear-gradient(160deg, var(--card-c1, #f9c006), var(--card-c2, #161511)) !important;
+  box-shadow: 0 0 14px rgba(251,212,84, .4), 0 8px 18px rgba(0, 0, 0, .45); }
+body #game-grid .game-card:active { transform: scale(.97); }
+body #game-grid .game-card.kn-hide { display: none !important; }
+body #game-grid .game-thumb { position: absolute; inset: 0; height: 100% !important; }
+body #game-grid .game-card .preview-multiplier, body #game-grid .game-card .preview-caption, body #game-grid .game-card .preview-live-tag { display: none !important; }
+body #game-grid .game-name { position: absolute; left: 0; right: 0; bottom: 30px; z-index: 3; padding: 18px 4px 3px; text-align: center; font-weight: 900; font-size: 12.5px; line-height: 1.1; color: #fff; background: linear-gradient(transparent, rgba(0, 0, 0, .75)); text-shadow: 0 1px 4px #000; }
+body #game-grid .kn-play { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 4; padding: 4px 14px; border-radius: 999px; background: linear-gradient(#ffe36a, #f5a30b); color: #2b1500; font: 900 12px/1.2 system-ui; white-space: nowrap; box-shadow: 0 3px 8px rgba(0, 0, 0, .45); }
+body #game-grid .kn-play::after { content: " \25B8"; }
+body #game-grid .game-badge { position: absolute !important; top: 6px !important; right: 6px !important; left: auto !important; z-index: 5; padding: 2px 8px !important; border-radius: 999px !important; font: 900 10px/1.4 system-ui !important; color: #fff !important; letter-spacing: .04em; border: 0 !important; background: #1ea446 !important; box-shadow: 0 2px 8px rgba(0, 0, 0, .4); }
+body #game-grid .game-badge[data-b="hot"] { background: #e11d2e !important; }
+
+/* ---------- bottom nav ---------- */
+body #bottom-nav { background: linear-gradient(#1d1b17, #100f0d) !important; border: 1.5px solid var(--kn-line) !important; border-radius: 26px !important; box-shadow: 0 -4px 26px rgba(250,207,65, .35); }
+body #bottom-nav button { color: #fdedba !important; font-weight: 700; }
+body #bottom-nav button.kdm-on, body #bottom-nav button.active { color: #fff !important; }
+body #bottom-nav button.kdm-on .nav-icon, body #bottom-nav button.active .nav-icon { background: linear-gradient(#facf40, #f9c312) !important; box-shadow: 0 0 18px rgba(251,214,94, .65) !important; color: #fff !important; }
+
+/* Games tab: show the banner too only on Home */
+body.kdm-games-view #kn-hero, body.kdm-games-view #wins-banner { display: none !important; }
+
+/* ---------- v2: denser reference-style tiles (4 per row on phones), compact Play Now, SVG crown ---------- */
+body #topbar .brand-lockup .brand-name::before { content: "" !important; display: inline-block; width: 30px; height: 24px; margin-right: 5px; vertical-align: -3px; filter: drop-shadow(0 0 6px rgba(255, 210, 63, .8)) !important;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 24'><path d='M2 20 0 5l8 7 7-11 7 11 8-7-2 15z' fill='%23ffc928' stroke='%23b8730a' stroke-width='1.2' stroke-linejoin='round'/><rect x='2' y='20' width='26' height='3' rx='1.5' fill='%23e8a012'/><circle cx='15' cy='14' r='2.2' fill='%23ff4d6d'/><circle cx='7' cy='15' r='1.6' fill='%234da3ff'/><circle cx='23' cy='15' r='1.6' fill='%234da3ff'/></svg>") center / contain no-repeat !important; }
+body #game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 8px !important; }
+@media (min-width: 700px) { body #game-grid { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; } }
+body #game-grid .game-card { aspect-ratio: 1 / 1.22; border-radius: 14px !important; border-width: 1.5px !important; }
+body #game-grid .game-name { bottom: 24px; font-size: 10.5px; padding: 14px 2px 2px; }
+body #game-grid .kn-play { bottom: 5px; padding: 3px 9px; font-size: 10px; }
+body #game-grid .game-badge { top: 4px !important; right: 4px !important; padding: 1px 6px !important; font-size: 9px !important; }
+@media (max-width: 340px) { body #game-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+/* keep the first rows clear of the sticky header when pills/banner scroll under it */
+#kn-pills, #kn-hero { scroll-margin-top: 70px; }
+body #game-grid .game-name { font-size: 9.5px; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 3px; padding-right: 3px; }
+
+/* ---------- v3: tiles use the real cover pictures (name + Play Now are part of the picture) ---------- */
+body #game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+@media (min-width: 640px) { body #game-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+@media (min-width: 960px) { body #game-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; } }
+body #game-grid .game-card { aspect-ratio: 1.5 / 1; }
+body #game-grid .game-name { bottom: 30px; font-size: 13px; }
+body #game-grid .kn-play { bottom: 7px; font-size: 12px; padding: 4px 14px; }
+body #game-grid .game-badge { font-size: 10px !important; }
+body #game-grid .game-card.kn-pic { border: 0 !important; background: var(--kn-tile) center / 100% 100% no-repeat, linear-gradient(160deg, var(--card-c1, #f9c006), var(--card-c2, #161511)) !important; box-shadow: 0 0 12px rgba(251,212,84, .45), 0 6px 14px rgba(0, 0, 0, .45); }
+body #game-grid .game-card.kn-pic.kn-fit { background-size: auto 100%, auto !important; background-repeat: no-repeat, no-repeat !important; }
+body #game-grid .game-card.kn-pic .game-thumb, body #game-grid .game-card.kn-pic .game-name, body #game-grid .game-card.kn-pic .kn-play, body #game-grid .game-card.kn-pic .game-badge { display: none !important; }
+/* winners: cover pictures fill the thumbnail */
+body .win-chip .win-thumb { background-size: cover !important; background-position: center top !important; }
+body #kn-hero .kn-slide.win .kn-thumb { width: 118px; height: 76px; border-radius: 14px; background-size: cover; background-position: center top; }
+
+/* ---------- rotating banner: game-picture slides (Aviator / Jet / Crash / High Flyer / Sky Masters) ---------- */
+body #kn-hero .kn-slide.feat { padding: 0; min-height: 150px; align-items: flex-end; justify-content: center; background: #171612 center / cover no-repeat; }
+body #kn-hero .kn-slide.feat::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,10,8, 0) 38%, rgba(11,10,8, .9)); pointer-events: none; }
+body #kn-hero .kn-slide.feat .kn-mid { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 0 14px 26px; text-align: left; }
+body #kn-hero .kn-slide.feat .kn-feat-name { font: 900 22px/1.1 "Inter", system-ui, sans-serif; color: #fff; text-shadow: 0 2px 10px rgba(0, 0, 0, .75); }
+body #kn-hero .kn-slide.feat .kn-cta { padding: 7px 16px !important; font-size: 14px !important; flex: none; }

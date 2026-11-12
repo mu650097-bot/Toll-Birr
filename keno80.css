@@ -1,0 +1,37 @@
+/* Keno 80 -- original design, own palette */
+.k80{--k-bg:#1a0709;--k-card:#2a0d10;--k-red:#8f1118;--k-red2:#c3202a;--k-gold:#f0b90b;--k-text:#f6ece4;--k-dim:#b99a92;color:var(--k-text);padding:0 0 90px;position:relative}
+.k80-head{display:flex;align-items:center;gap:8px;margin:6px 0 10px}
+.k80-title{font-weight:900;font-size:22px;letter-spacing:1px;color:var(--k-gold)}.k80-title b{color:#fff}
+.k80-modes{display:flex;margin-left:auto;background:#12050700;border:1px solid #4a1a1e;border-radius:10px;overflow:hidden}
+.k80-modes button{background:transparent;border:0;color:var(--k-dim);padding:7px 10px;font-weight:800;font-size:12px}
+.k80-modes button.on{background:var(--k-gold);color:#1a1200}
+.k80-help{width:30px;height:30px;border-radius:50%;border:1px solid var(--k-gold);background:transparent;color:var(--k-gold);font-weight:900}
+.k80-round{display:flex;justify-content:space-between;align-items:flex-end;padding:10px 12px;background:var(--k-card);border-radius:12px 12px 0 0}
+.k80-round small{display:block;color:var(--k-dim);font-size:11px;letter-spacing:1px}.k80-round b{font-size:20px}
+.k80-timer{font-size:30px;font-weight:900;color:var(--k-gold);font-variant-numeric:tabular-nums}.k80-timer.urgent{color:#ff5a5f;animation:k80blink .6s infinite alternate}
+@keyframes k80blink{to{opacity:.45}}
+.k80-bar{height:5px;background:#3a1418;border-radius:0 0 4px 4px;overflow:hidden}.k80-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--k-red2),var(--k-gold));transition:width .25s linear}
+.k80-stage{display:flex;align-items:center;gap:10px;margin:10px 0;min-height:76px}
+.k80-ball{flex:0 0 68px;height:68px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3a0,var(--k-gold) 55%,#a87800);color:#1a1200;font-weight:900;font-size:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px #0008}
+.k80-ball.pop{animation:k80pop .35s ease-out}@keyframes k80pop{0%{transform:scale(.4)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
+.k80-drawn{display:flex;flex-wrap:wrap;gap:4px;flex:1}.k80-drawn i,.k80-chips i{font-style:normal;min-width:24px;height:24px;border-radius:12px;background:#4a1a1e;color:#fff;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;padding:0 4px}
+.k80-drawn i.hit,.k80-chips i.hit{background:#1f9d57}
+.k80-banner{border-radius:10px;padding:10px 12px;margin:0 0 10px;font-weight:700;text-align:center}.k80-banner.win{background:#14532d;border:1px solid #22c55e}.k80-banner.lose{background:#2a1214;border:1px solid #5a2328;color:var(--k-dim)}
+.k80-info{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--k-card);border-radius:10px 10px 0 0;font-size:13px}.k80-info b{margin-left:auto;color:var(--k-gold)}
+.k80-mini{background:#3a1418;border:1px solid #5a2328;color:#fff;border-radius:8px;padding:6px 10px;font-weight:800;min-width:40px}
+.k80-hint{text-align:center;font-size:12px;color:var(--k-dim);padding:8px;background:#22090c}
+.k80-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;padding:6px 0}
+.k80-cell{aspect-ratio:1/1.05;border:0;border-radius:8px;background:linear-gradient(#a3141b,#7d0f15);color:#ffd9d4;font-weight:800;font-size:13px;padding:0;transition:transform .08s}
+.k80-cell:active{transform:scale(.92)}.k80-cell.sel{background:linear-gradient(#ffe27a,var(--k-gold));color:#1a1200;box-shadow:0 0 0 2px #fff6;transform:translateY(-1px)}
+.k80-cell.drawn{background:#2f1215;color:#8a5a58}.k80-cell.drawn.hit{background:linear-gradient(#34d27b,#1f9d57);color:#fff;box-shadow:0 0 10px #22c55e99}
+.k80-pt{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}.k80-pt span{background:#2a0d10;border:1px solid #4a1a1e;border-radius:8px;padding:4px 8px;font-size:12px;font-weight:700}.k80-pt i{font-style:normal;color:var(--k-gold);margin-right:4px}.k80-dim{color:var(--k-dim)}
+.k80-bets{display:flex;gap:6px;align-items:stretch}.k80-stake{display:flex;flex:1;background:#12050788;border:1px solid #4a1a1e;border-radius:10px;overflow:hidden}
+.k80-stake button{width:44px;background:#3a1418;border:0;color:#fff;font-size:22px;font-weight:900}.k80-stake input{flex:1;min-width:0;text-align:center;background:transparent;border:0;color:#fff;font-size:18px;font-weight:800}
+.k80-betbtn{width:100%;margin-top:8px;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:900;letter-spacing:.5px;color:#1a1200;background:linear-gradient(#ffd23f,#d99a00)}.k80-betbtn:disabled{opacity:.6}
+.k80-msg{min-height:18px;text-align:center;font-size:13px;margin:6px 0;color:#7ee2a8}.k80-msg.err{color:#ff8a8a}
+.k80-tabs{display:flex;border-bottom:1px solid #4a1a1e;margin-top:10px}.k80-tabs button{flex:1;background:transparent;border:0;border-bottom:3px solid transparent;color:var(--k-dim);padding:10px 0;font-weight:800}.k80-tabs button.on{color:var(--k-gold);border-color:var(--k-gold)}
+.k80-tabbody{padding-top:6px}.k80-livebar{padding:8px 4px;color:var(--k-dim);font-size:13px}.k80-livebar b{color:var(--k-gold)}
+.k80-row{display:flex;gap:10px;align-items:center;background:#2a0d10;border-radius:10px;padding:10px;margin-bottom:6px}.k80-av{width:34px;height:34px;border-radius:50%;background:#4a1a1e;display:flex;align-items:center;justify-content:center;font-weight:900;text-transform:uppercase}
+.k80-rw{flex:1;min-width:0}.k80-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}.k80-rs{text-align:right}.k80-rs small{display:block;font-weight:800}.k80-rs small.won{color:#4ade80}.k80-rs small.lost{color:#9a7a76}.k80-rs small.pending{color:var(--k-gold)}
+.k80-empty{padding:18px;text-align:center;color:var(--k-dim)}.k80-foot{margin-top:10px;text-align:center;font-size:11px;color:var(--k-dim)}
+.k80-sheet{position:absolute;inset:0;background:#1a0709f2;padding:14px;overflow:auto;border-radius:12px;z-index:5}.k80-sheet h3{margin:0 0 8px;color:var(--k-gold)}.k80-sheet li{margin:6px 0;font-size:14px}.k80-ptt{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}.k80-ptt td,.k80-ptt th{border-bottom:1px solid #4a1a1e;padding:6px 4px;text-align:left}

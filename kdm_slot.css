@@ -1,0 +1,25 @@
+/* KDM SLOT screen (5x3, 10 lines). Colours come from the theme via --sl-c1 (frame/gold) and --sl-c2 (dark). */
+#page-slot .sl-frame{--sl-c1:#f59e0b;--sl-c2:#3b1d05;position:relative;padding:10px;border-radius:22px;border:3px solid var(--sl-c1);background:linear-gradient(180deg,color-mix(in srgb,var(--sl-c2) 85%,#000),color-mix(in srgb,var(--sl-c2) 60%,#000));box-shadow:0 0 0 1px rgba(0,0,0,.4) inset,0 10px 30px rgba(0,0,0,.45)}
+#page-slot .sl-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+#page-slot .sl-c{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:clamp(24px,8.4vw,38px);line-height:1;border-radius:12px;border:1px solid color-mix(in srgb,var(--sl-c1) 35%,transparent);background:linear-gradient(180deg,color-mix(in srgb,var(--sl-c2) 70%,#fff 8%),color-mix(in srgb,var(--sl-c2) 92%,#000));transition:transform .15s,box-shadow .15s,background .15s;overflow:hidden}
+#page-slot .sl-c.spin{filter:blur(1.5px);transform:translateY(2px);opacity:.85}
+#page-slot .sl-c.win{border-color:#4ade80;background:linear-gradient(180deg,#fff3c4,#f5c542);box-shadow:0 0 0 2px rgba(74,222,128,.7),0 0 16px rgba(74,222,128,.55);animation:slPop .5s ease 2}
+@keyframes slPop{50%{transform:scale(1.07)}}
+#page-slot .sl-w{font-size:11px;font-weight:900;letter-spacing:.5px;color:#111;background:linear-gradient(180deg,#fde047,#f59e0b);padding:4px 5px;border-radius:6px}
+#page-slot .sl-s{font-size:clamp(26px,9vw,40px);color:#fbbf24;filter:drop-shadow(0 0 6px rgba(251,191,36,.8))}
+#page-slot .sl-win{margin-top:10px;text-align:center;font-size:14px;font-weight:800;opacity:.95;color:#fde68a}
+#page-slot .sl-win b{font-size:22px;color:#4ade80}
+#page-slot .sl-info{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;font-size:12px}
+#page-slot .sl-info small{opacity:.7;display:block;margin-bottom:4px}
+#page-slot .sl-info b{font-size:20px;color:#fbbf24}
+#page-slot .sl-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+#page-slot .sl-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f59e0b,#fde047);transition:width .4s}
+#page-slot .sl-pay{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+#page-slot .sl-pay>div{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 4px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-size:16px}
+#page-slot .sl-pay small{font-size:10px;opacity:.6}#page-slot .sl-pay b{font-size:11px;color:#fde68a;text-align:center}
+#page-slot .sl-pay .sc{border-color:rgba(251,191,36,.5)}
+#page-slot .sl-ghost{border-radius:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font-weight:800;min-height:52px}
+#page-slot .sl-ghost.gold{border-color:#f59e0b;color:#fbbf24}#page-slot .sl-ghost.on{background:#f59e0b;color:#1a1205}
+#page-slot .kx-step{flex:1;min-width:0}
+#page-slot .kx-step input{flex:1;min-width:0;width:100%;text-align:center;background:transparent;border:0;color:#fff;font-size:20px;font-weight:800}
+#page-slot .fairness-note{display:none}

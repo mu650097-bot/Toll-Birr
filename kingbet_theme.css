@@ -1,0 +1,64 @@
+/* KING BET THEME (black + yellow) -- loaded LAST. Visual only; no routes, bets, payouts or API touched.
+   Remove the <link> in index.html to revert. */
+:root{
+  --kb-bg:#0a0a0a; --kb-bg2:#141414; --kb-card:#1a1a1a; --kb-card2:#242424;
+  --kb-line:#3a3a3a; --kb-gold:#ffc400; --kb-gold2:#e6a800; --kb-mut:#b8b8b8; --kb-grn:#22c55e; --kb-live:#e5333b;
+  --kb-goldg:linear-gradient(180deg,#ffd633,#ffb800);
+  --kb-cardg:linear-gradient(180deg,#222,#151515);
+  --kb-glow:0 0 18px rgba(255,196,0,.22);
+}
+html,body{background:var(--kb-bg)!important;color:#fff}
+body{background-image:radial-gradient(110% 40% at 50% -5%,#2a2200 0,transparent 70%)!important;font-family:"Poppins",system-ui,"Noto Sans Ethiopic",sans-serif}
+#content{background:transparent!important}
+
+/* header */
+#topbar{background:linear-gradient(180deg,#171717,#0a0a0a)!important;border-bottom:1px solid #2c2c2c!important}
+.brand-mark{fill:url(#k-gold)}
+.brand-name{font-style:italic;font-weight:900!important;letter-spacing:.3px;color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important}
+.brand-name b{color:var(--kb-gold)!important;-webkit-text-fill-color:var(--kb-gold)!important}
+.brand-tagline{color:var(--kb-mut)!important}
+#balance-pill{background:#000!important;border:1px solid var(--kb-gold)!important;color:#fff!important}
+#top-deposit-btn{background:var(--kb-goldg)!important;color:#111!important;border:0!important;font-weight:800;box-shadow:0 0 12px rgba(255,196,0,.35)}
+#kdm-avatar{background:var(--kb-goldg)!important;color:#111!important;border:2px solid var(--kb-gold)!important}
+.notif-dot,.quick-new em{background:var(--kb-live)!important;color:#fff!important}
+
+/* hero, promo, wins, tiles */
+.reference-hero .hero-main,.reference-hero .hero-side{background:linear-gradient(110deg,#141414,#2b2300 60%,#4a3a00)!important;border:1.5px solid var(--kb-gold)!important;box-shadow:var(--kb-glow)}
+.hero-cta,.kn-cta{background:var(--kb-goldg)!important;color:#111!important;font-weight:800!important;border:0!important}
+.sports-promo{background:linear-gradient(100deg,#0d0d0d,#2b2300 60%,#4a3a00)!important;border:1.5px solid var(--kb-gold)!important;box-shadow:var(--kb-glow)}
+.sports-promo .sp-title span{color:var(--kb-gold)}
+#wins-banner{background:rgba(0,0,0,.6)!important;border:1.5px solid var(--kb-gold2)!important}
+.quick-cabinet-btn{background:var(--kb-cardg)!important;border:1px solid var(--kb-line)!important;color:#fff!important;border-radius:12px!important}
+.quick-cabinet-btn:active,.quick-cabinet-btn:hover{border-color:var(--kb-gold)!important}
+.quick-cabinet-btn .ico{color:var(--kb-gold)!important;filter:drop-shadow(0 0 6px rgba(255,196,0,.4))}
+.quick-new{border-color:var(--kb-gold2)!important}
+
+/* category pills + side nav */
+#kn-pills button{background:var(--kb-card)!important;border:1px solid var(--kb-line)!important;color:#fff!important}
+#kn-pills button.on{background:var(--kb-goldg)!important;color:#111!important;border-color:var(--kb-gold)!important}
+#side-nav{background:var(--kb-bg2)!important;border-color:var(--kb-line)!important}
+#side-nav nav button{color:#f0f0f0!important}
+#side-nav nav button.active,#side-nav nav button:hover{background:var(--kb-goldg)!important;color:#111!important}
+#side-nav nav button.active .ico,#side-nav nav button:hover .ico{color:#111}
+#side-nav nav button .ico{color:var(--kb-gold)}
+.btn-primary,.primary-btn,button.primary{background:var(--kb-goldg)!important;color:#111!important;font-weight:800!important;border:0!important}
+
+/* promo cards row (Deposit / Invite / VIP) */
+.kb-promos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.kb-promo{position:relative;overflow:hidden;border:1px solid var(--kb-line);border-radius:14px;padding:12px 10px;text-align:left;color:#fff;background:linear-gradient(135deg,#1c1c1c,#2e2500);cursor:pointer}
+.kb-promo b{display:block;font:900 14px/1.15 system-ui;font-style:italic}
+.kb-promo small{display:block;margin:3px 0 8px;font:600 11px/1.25 system-ui;color:var(--kb-mut)}
+.kb-promo span{display:inline-block;padding:5px 12px;border-radius:999px;background:var(--kb-goldg);color:#111;font:800 12px system-ui}
+.kb-promo i{position:absolute;right:6px;top:4px;font-size:30px;font-style:normal;opacity:.9}
+
+/* ---- home rotating banner: BIG most-played game + admin pictures ---- */
+body #kn-hero{border:1.5px solid var(--kb-gold)!important;box-shadow:var(--kb-glow)}
+body #kn-hero .kn-slide.pop,body #kn-hero .kn-slide.ban{padding:0;min-height:200px;background:#1a1500 center/cover no-repeat;align-items:flex-end;justify-content:flex-start}
+body #kn-hero .kn-slide.pop::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.92));pointer-events:none}
+body #kn-hero .kn-slide.pop .kn-mid{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:0 16px 28px;text-align:left;width:100%}
+.kn-pop-badge{padding:3px 10px;border-radius:999px;background:var(--kb-live);color:#fff;font:800 11px/1.4 system-ui;letter-spacing:.4px}
+.kn-pop-name{font:900 30px/1.05 "Inter",system-ui,sans-serif;color:#fff;text-shadow:0 3px 14px rgba(0,0,0,.8)}
+.kn-pop-stat{font:700 13px/1.3 system-ui;color:var(--kb-gold)}
+body #kn-hero .kn-slide.pop .kn-cta{margin-top:4px;padding:7px 18px!important;font-size:14px!important}
+body #kn-hero .kn-slide.ban{min-height:170px}
+@media(min-width:1024px){#pages{max-width:1100px;margin-inline:auto}}
